@@ -1,6 +1,9 @@
+import allRouter from '@Routes/index';
+import swaggerJsDoc from 'swagger-jsdoc';
+
 let HOST = process.env.HOST || 'localhost:3000';
 
-const swaggerConfig = {
+const swaggerConfig: swaggerJsDoc.Options = {
   definition: {
     openapi: '3.0.0',
     info: {
@@ -10,7 +13,7 @@ const swaggerConfig = {
       servers: [HOST],
     },
   },
-  apis: ['./routes/apis.js'],
+  apis: [`./src/routes/*.ts`],
 };
 
 export default swaggerConfig;

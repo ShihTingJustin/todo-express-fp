@@ -9,10 +9,6 @@ require('./config/mongoose');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('test');
-});
-
 app.use(allRouter);
 
 app.listen(PORT, () => {
