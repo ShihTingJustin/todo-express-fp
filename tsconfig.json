@@ -40,6 +40,7 @@
     "paths": {
       "@Constants/*": ["src/constants/*"],
       "@Config/*": ["src/config/*"],
+      "@Interfaces/*": ["src/interfaces/*"],
       "@Models/*": ["src/models/*"],
       "@Routes/*": ["src/routes/*"],
       "@Utils/*": ["src/utils/*"]
