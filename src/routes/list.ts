@@ -1,6 +1,7 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import listController from '@Controllers/list/listController';
 
-const todoRouter = express.Router();
+const listRouter = express.Router();
 
 /**
  * @swagger
@@ -10,13 +11,6 @@ const todoRouter = express.Router();
  *      summary: Get all list
  *      tags:
  *        - list
- *      parameters:
- *        - in: path
- *          name: userId
- *          schema:
- *            type: integer
- *          required: true
- *          description: Numeric ID of the user to get
  *      responses:
  *        "200":
  *          description: success
@@ -25,8 +19,6 @@ const todoRouter = express.Router();
  *        "500":
  *          description: unknown error
  */
-todoRouter.get('', (req: Request, res: Response) => {
-  res.send('get all list');
-});
+listRouter.get('', listController.getAllList);
 
-export default todoRouter;
+export default listRouter;
