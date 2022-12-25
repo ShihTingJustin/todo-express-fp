@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import todoController from '@Controllers/todo/todoController';
 
 const todoRouter = express.Router();
 
@@ -25,9 +26,7 @@ const todoRouter = express.Router();
  *        "500":
  *          description: unknown error
  */
-todoRouter.get('/:listId', (req: Request, res: Response) => {
-  res.send('get list by listId');
-});
+todoRouter.get('/:listId', todoController.getTodoByListId);
 
 /**
  * @swagger

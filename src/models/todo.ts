@@ -1,7 +1,15 @@
-import mongoose from 'mongoose';
-import { TodoStatus } from '@Interfaces/I_todo';
+import { Document, Schema, model } from 'mongoose';
+import { TodoStatus, TodoPriority } from '@Interfaces/I_todo';
 
-const todoSchema = new mongoose.Schema({
+export interface ITodo extends Document {
+  id: string;
+  listId: string;
+  title: string;
+  status: TodoStatus;
+  priority?: TodoPriority;
+}
+
+const todoSchema = new Schema<ITodo>({
   listId: {
     type: String,
     require: true,
@@ -12,8 +20,13 @@ const todoSchema = new mongoose.Schema({
   },
   status: {
     type: String,
+    require: true,
     default: TodoStatus.UNFINISH,
+  },
+  priority: {
+    type: String,
+    require: false,
   },
 });
 
-export default mongoose.model('TODO', todoSchema);
+export default model('TODO', todoSchema);
