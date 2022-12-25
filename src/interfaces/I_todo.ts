@@ -9,4 +9,12 @@ export enum TodoStatus {
   UNFINISH = 'unfinished',
 }
 
-export default TodoPriority;
+export interface ITodo {
+  id: string;
+  listId: string;
+  title: string;
+  status: TodoStatus;
+  priority?: TodoPriority;
+}
+
+export default ITodo;

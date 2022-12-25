@@ -1,10 +1,9 @@
 import { Document, Schema, model } from 'mongoose';
+import { IList } from '@Interfaces/I_list';
 
-export interface IList extends Document {
-  title: string;
-}
+interface MList extends Omit<IList, 'id'>, Document<string> {}
 
-const listSchema = new Schema<IList>({
+const listSchema = new Schema<MList>({
   title: {
     type: String,
     require: true,

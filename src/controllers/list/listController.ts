@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import List from '@Models/list';
+import { IList } from '@Interfaces/I_list';
 
 const listController = {
   getAllList: async (
@@ -7,7 +8,7 @@ const listController = {
     res: Response<{
       status: string;
       message?: string;
-      data?: { id: string; title: string }[];
+      data?: IList[];
     }>,
   ) => {
     try {

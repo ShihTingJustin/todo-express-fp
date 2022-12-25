@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import Todo, { ITodo } from '@Models/todo';
+import Todo from '@Models/todo';
+import { ITodo } from '@Interfaces/I_todo';
 
 const todoController = {
   getTodoByListId: async (

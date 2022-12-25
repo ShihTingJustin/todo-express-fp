@@ -1,15 +1,9 @@
 import { Document, Schema, model } from 'mongoose';
-import { TodoStatus, TodoPriority } from '@Interfaces/I_todo';
+import { ITodo, TodoStatus, TodoPriority } from '@Interfaces/I_todo';
 
-export interface ITodo extends Document {
-  id: string;
-  listId: string;
-  title: string;
-  status: TodoStatus;
-  priority?: TodoPriority;
-}
+interface MTodo extends Omit<ITodo, 'id'>, Document<string> {}
 
-const todoSchema = new Schema<ITodo>({
+const todoSchema = new Schema<MTodo>({
   listId: {
     type: String,
     require: true,
