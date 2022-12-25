@@ -2,12 +2,24 @@ import { Request, Response } from 'express';
 import List from '@Models/list';
 
 const listController = {
-  getAllList: async (req: Request, res: Response) => {
+  getAllList: async (
+    req: Request,
+    res: Response<{
+      status: string;
+      message?: string;
+      data?: { id: string; title: string }[];
+    }>,
+  ) => {
     try {
-      const listData = await List.find({}).exec();
+      const data = await List.find({}).exec();
+      const resData = data.map((item) => ({
+        id: item._id,
+        title: item.title,
+      }));
+
       return res.status(200).json({
         status: 'success',
-        data: listData,
+        data: resData,
       });
     } catch (err) {
       return res.status(500).json({
