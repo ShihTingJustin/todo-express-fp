@@ -17,7 +17,7 @@ const todoController = {
     }>,
   ) => {
     try {
-      const data = await Todo.find({ listId: req.params.listId }).exec();
+      const data = await Todo.find({ listId: req.params.listId, isDelete: false }).exec();
       const resData = data.map((item) => ({
         id: item._id,
         title: item.title,
