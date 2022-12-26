@@ -15,6 +15,8 @@ app.use(
     optionsSuccessStatus: 200,
   }),
 );
+
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(allRouter);
