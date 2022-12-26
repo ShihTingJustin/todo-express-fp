@@ -1,7 +1,9 @@
 import { Document, Schema, model } from 'mongoose';
 import { ITodo, TodoStatus, TodoPriority } from '@Interfaces/I_todo';
 
-interface MTodo extends Omit<ITodo, 'id'>, Document<string> {}
+export interface MTodo extends Omit<ITodo, 'id'>, Document<string> {
+  isDelete: boolean;
+}
 
 const todoSchema = new Schema<MTodo>({
   listId: {
@@ -19,6 +21,10 @@ const todoSchema = new Schema<MTodo>({
   },
   priority: {
     type: String,
+    require: false,
+  },
+  isDelete: {
+    type: Boolean,
     require: false,
   },
 });
