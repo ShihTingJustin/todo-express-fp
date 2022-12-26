@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import allRouter from './routes';
 
 const app: Express = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 require('dotenv').config();
 require('./config/mongoose');
