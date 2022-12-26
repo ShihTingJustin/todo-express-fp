@@ -38,7 +38,7 @@ todoRouter.get('/:listId', todoController.getTodoByListId);
  *        - todo
  *      requestBody:
  *       content:
- *        application/x-www-form-urlencoded:
+ *        application/json:
  *          schema:
  *            type: object
  *            properties:
@@ -69,7 +69,7 @@ todoRouter.post('', todoController.createTodo);
  *        - todo
  *      requestBody:
  *       content:
- *        application/x-www-form-urlencoded:
+ *        application/json:
  *          schema:
  *            type: object
  *            properties:
@@ -88,9 +88,7 @@ todoRouter.post('', todoController.createTodo);
  *        "500":
  *          description: unknown error
  */
-todoRouter.put('/:todoId', (req: Request, res: Response) => {
-  res.send('update todo');
-});
+todoRouter.put('', todoController.updateTodo);
 
 /**
  * @swagger
