@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Todo from '@Models/todo';
 import { ITodo, CreateTodoReqBody, UpdateTodoReqBody } from '@Interfaces/I_todo';
-import { checkListIdValid, addTodo } from '@Utils/index';
+import { checkListIdValid, addTodo, updateTodoByTodoId } from '@Utils/index';
 
 interface CustomRequest<T> extends Request {
   body: T;
@@ -82,6 +82,37 @@ const todoController = {
 
       const todo = await Todo.findByIdAndUpdate(todoId, update, { new: true });
       console.log(todo);
+      if (todo) {
+        return res.status(200).json({
+          status: 'success',
+        });
+      } else {
+        return res.status(400).json({
+          status: 'error',
+          message: 'not found',
+        });
+      }
+
+      // TODO: error handling
+    } catch (err) {
+      return res.status(500).json({
+        status: 'error',
+        message: 'Internal Server Error',
+      });
+    }
+  },
+  deleteTodo: async (
+    req: Request,
+    res: Response<{
+      status: string;
+      message?: string;
+      data?: ITodo;
+    }>,
+  ) => {
+    try {
+      // TODO: validation
+
+      const todo = await updateTodoByTodoId(req.params.todoId, { isDelete: true });
       if (todo) {
         return res.status(200).json({
           status: 'success',
