@@ -1,6 +1,11 @@
 import { Request, Response } from 'express';
 import Todo from '@Models/todo';
-import { ITodo } from '@Interfaces/I_todo';
+import { ITodo, CreateTodoReqBody } from '@Interfaces/I_todo';
+import { checkListIdValid, addTodo } from '@Utils/index';
+
+interface CustomRequest<T> extends Request {
+  body: T;
+}
 
 const todoController = {
   getTodoByListId: async (
@@ -24,6 +29,38 @@ const todoController = {
         status: 'success',
         data: resData,
       });
+    } catch (err) {
+      return res.status(500).json({
+        status: 'error',
+        message: 'Internal Server Error',
+      });
+    }
+  },
+  createTodo: async (
+    req: CustomRequest<CreateTodoReqBody>,
+    res: Response<{
+      status: string;
+      message?: string;
+      data?: ITodo;
+    }>,
+  ) => {
+    try {
+      console.log(req.body);
+
+      // TODO: fp-ts
+      const isListIdValid = await checkListIdValid(req.body.listId);
+
+      // TODO: validation
+
+      if (isListIdValid) {
+        const todo = await addTodo(req.body);
+        return res.status(200).json({
+          status: 'success',
+          data: todo,
+        });
+      }
+
+      // TODO: error handling
     } catch (err) {
       return res.status(500).json({
         status: 'error',
