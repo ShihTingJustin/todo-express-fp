@@ -13,7 +13,7 @@ export async function checkListIdValid(listId: string) {
 
 export async function addTodo(todo: CreateTodoReqBody) {
   try {
-    const data = await Todo.create(todo);
+    const data = await Todo.create({ ...todo, isDelete: false });
     const newTodo: ITodo = {
       id: data._id,
       title: data.title,
