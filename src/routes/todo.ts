@@ -113,8 +113,6 @@ todoRouter.put('', todoController.updateTodo);
  *        "500":
  *          description: unknown error
  */
-todoRouter.put('/:todoId', (req: Request, res: Response) => {
-  res.send('update todo');
-});
+todoRouter.delete('/:todoId', todoController.deleteTodo);
 
 export default todoRouter;
