@@ -1,5 +1,5 @@
 import express, { Express, Request, Response } from 'express';
-import cors from 'cors';
+import cors, { CorsOptionsDelegate } from 'cors';
 import bodyParser from 'body-parser';
 import allRouter from './routes';
 
@@ -9,12 +9,18 @@ const PORT = process.env.PORT || 3000;
 require('dotenv').config();
 require('./config/mongoose');
 
-app.use(
-  cors({
-    origin: `${process.env.CLIENT_DOMAIN}`,
-    optionsSuccessStatus: 200,
-  }),
-);
+const allowlist = [`${process.env.CLIENT_DOMAIN_1}`, `${process.env.CLIENT_DOMAIN_2}`];
+const corsOptionsDelegate: CorsOptionsDelegate<Request> = function (req, callback) {
+  let corsOptions;
+  if (allowlist.indexOf(req.header('origin') || '') !== -1) {
+    corsOptions = { origin: true, preflightContinue: true }; // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false }; // disable CORS for this request
+  }
+  callback(null, corsOptions); // callback expects two parameters: error and options
+};
+
+app.use(cors(corsOptionsDelegate));
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
