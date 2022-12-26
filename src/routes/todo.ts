@@ -57,9 +57,7 @@ todoRouter.get('/:listId', todoController.getTodoByListId);
  *        "500":
  *          description: unknown error
  */
-todoRouter.post('', (req: Request, res: Response) => {
-  res.send('create todo');
-});
+todoRouter.post('', todoController.createTodo);
 
 /**
  * @swagger
