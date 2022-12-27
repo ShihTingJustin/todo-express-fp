@@ -80,6 +80,7 @@ export const searchTodoByFilter = async ({ keyword }: { keyword: string }) => {
     const data = await Todo.find(
       {
         $or: [{ title: { $regex: reg } }],
+        $and: [{ isDelete: false }],
       },
       {},
       {
