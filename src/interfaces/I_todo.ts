@@ -19,5 +19,8 @@ export interface ITodo {
 
 export type CreateTodoReqBody = Omit<ITodo, 'id'>;
 export type UpdateTodoReqBody = Partial<Omit<ITodo, 'id'>> & { todoId: string };
+export type SearchTodoBody = {
+  keyword: string
+}
 
 export default ITodo;

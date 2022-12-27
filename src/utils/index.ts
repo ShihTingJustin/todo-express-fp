@@ -57,3 +57,71 @@ export const getTodoAmountByListId = async ({
     console.log(error);
   }
 };
+
+export const getListByListId = async (listId: string) => {
+  try {
+    const data = await List.findById(listId);
+    const result = {
+      id: data?._id,
+      title: data?.title,
+    };
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const searchTodoByFilter = async ({ keyword }: { keyword: string }) => {
+  try {
+    const reg = new RegExp(keyword, 'i');
+
+    const data = await Todo.find(
+      {
+        $or: [{ title: { $regex: reg } }],
+      },
+      {},
+      {
+        sort: { _id: 1 },
+        limit: 10,
+      },
+    ).exec();
+
+    const result = data.map((item) => ({
+      id: item._id,
+      title: item.title,
+      listId: item.listId,
+      status: item.status,
+    }));
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const groupTodoByList = async (todo: ITodo[]) => {
+  try {
+    const todoData = todo.reduce((acc, curr) => {
+      if (!(curr.listId in acc)) acc[curr.listId] = [];
+      acc[curr.listId].push(curr);
+      return acc;
+    }, {} as { [key: ITodo['listId']]: ITodo[] });
+
+    const allListId = Object.keys(todoData);
+
+    const listData = await Promise.all(
+      allListId.map(async (listId) => {
+        const list = await getListByListId(listId);
+        return list;
+      }),
+    );
+
+    const groupData = listData?.map((list) => ({
+      ...list,
+      todo: todoData[list?.id || ''],
+    }));
+
+    return groupData;
+  } catch (error) {
+    console.log(error);
+  }
+};
