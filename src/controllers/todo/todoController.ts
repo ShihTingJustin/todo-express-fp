@@ -7,6 +7,7 @@ import {
   updateTodoByTodoId,
   searchTodoByFilter,
   groupTodoByList,
+  getListByListId,
 } from '@Utils/index';
 
 interface CustomRequest<T> extends Request {
@@ -19,22 +20,37 @@ const todoController = {
     res: Response<{
       status: string;
       message?: string;
-      data?: ITodo[];
+      data?: {
+        listTitle: string;
+        todo: ITodo[];
+      };
     }>,
   ) => {
     try {
-      const data = await Todo.find({ listId: req.params.listId, isDelete: false }).exec();
-      const resData = data.map((item) => ({
-        id: item._id,
-        title: item.title,
-        listId: item.listId,
-        status: item.status,
-      }));
+      const todoData = await Todo.find({ listId: req.params.listId, isDelete: false }).exec();
+      const listData = await getListByListId(req.params.listId);
 
-      return res.status(200).json({
-        status: 'success',
-        data: resData,
-      });
+      if (todoData && listData) {
+        const resData = {
+          listTitle: listData.title,
+          todo: todoData.map((todo) => ({
+            id: todo._id,
+            title: todo.title,
+            listId: todo.listId,
+            status: todo.status,
+          })),
+        };
+
+        return res.status(200).json({
+          status: 'success',
+          data: resData,
+        });
+      } else {
+        return res.status(400).json({
+          status: 'error',
+          message: 'not found',
+        });
+      }
     } catch (err) {
       return res.status(500).json({
         status: 'error',

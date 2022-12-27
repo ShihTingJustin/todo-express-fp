@@ -61,11 +61,13 @@ export const getTodoAmountByListId = async ({
 export const getListByListId = async (listId: string) => {
   try {
     const data = await List.findById(listId);
-    const result = {
-      id: data?._id,
-      title: data?.title,
-    };
-    return result;
+    if (data) {
+      const result = {
+        id: data._id,
+        title: data?.title,
+      };
+      return result;
+    }
   } catch (error) {
     console.log(error);
   }
