@@ -31,6 +31,32 @@ todoRouter.get('/:listId', todoController.getTodoByListId);
 /**
  * @swagger
  * paths:
+ *  /todo/search:
+ *    post:
+ *      summary: Search todo
+ *      tags:
+ *        - todo
+ *      requestBody:
+ *       content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              keyword:
+ *                type: string
+ *      responses:
+ *        "200":
+ *          description: success
+ *        "400":
+ *          description: bad request
+ *        "500":
+ *          description: unknown error
+ */
+todoRouter.post('/search', todoController.searchTodo);
+
+/**
+ * @swagger
+ * paths:
  *  /todo:
  *    post:
  *      summary: Create a todo
