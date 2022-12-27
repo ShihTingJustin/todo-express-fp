@@ -42,3 +42,18 @@ export async function updateTodoByTodoId(todoId: ITodo['id'], update: Partial<MT
     console.log(err);
   }
 }
+
+export const getTodoAmountByListId = async ({
+  listId,
+  isDelete = false,
+}: {
+  listId: string;
+  isDelete?: boolean;
+}) => {
+  try {
+    const todoAmount = await Todo.countDocuments({ listId, isDelete }).exec();
+    return todoAmount;
+  } catch (error) {
+    console.log(error);
+  }
+};

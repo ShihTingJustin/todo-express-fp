@@ -1,4 +1,5 @@
 export interface IList {
-  id: string
+  id: string;
   title: string;
+  todoAmount: number;
 }
