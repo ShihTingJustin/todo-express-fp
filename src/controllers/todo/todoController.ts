@@ -1,7 +1,13 @@
 import { Request, Response } from 'express';
 import Todo from '@Models/todo';
-import { ITodo, CreateTodoReqBody, UpdateTodoReqBody } from '@Interfaces/I_todo';
-import { checkListIdValid, addTodo, updateTodoByTodoId } from '@Utils/index';
+import { ITodo, CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interfaces/I_todo';
+import {
+  checkListIdValid,
+  addTodo,
+  updateTodoByTodoId,
+  searchTodoByFilter,
+  groupTodoByList,
+} from '@Utils/index';
 
 interface CustomRequest<T> extends Request {
   body: T;
@@ -28,6 +34,31 @@ const todoController = {
       return res.status(200).json({
         status: 'success',
         data: resData,
+      });
+    } catch (err) {
+      return res.status(500).json({
+        status: 'error',
+        message: 'Internal Server Error',
+      });
+    }
+  },
+  searchTodo: async (
+    req: CustomRequest<SearchTodoBody>,
+    res: Response<{
+      status: string;
+      message?: string;
+      data?: any;
+    }>,
+  ) => {
+    try {
+      const { keyword } = req.body;
+      const data = await searchTodoByFilter({ keyword });
+
+      const groupData = await groupTodoByList(data || []);
+
+      return res.status(200).json({
+        status: 'success',
+        data: groupData,
       });
     } catch (err) {
       return res.status(500).json({
