@@ -2,12 +2,18 @@ import List from '@Models/list';
 import Todo, { MTodo } from '@Models/todo';
 import { ITodo, CreateTodoReqBody } from '@Interfaces/I_todo';
 
+const castErrorDB = (error: any) => {
+  if (error.name === 'CastError') return new Error(`Invalid ${error}`);
+  return error;
+};
+
 export async function checkListIdValid(listId: string) {
   try {
     const data = await List.findById(listId).exec();
+    console.log(data);
     return !!data?._id;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    castErrorDB(error);
   }
 }
 

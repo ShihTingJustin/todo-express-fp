@@ -30,3 +30,5 @@ app.use(allRouter);
 app.listen(PORT, () => {
   console.log(`Express is listening on localhost:${PORT}`);
 });
+
+export default app;
