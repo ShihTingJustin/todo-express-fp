@@ -15,7 +15,7 @@ afterAll(async () => {
 });
 
 describe('save', () => {
-  it('should create user', async () => {
+  it('should create todo', async () => {
     const listId = faker.datatype.uuid();
     const title = faker.internet.avatar();
     const status = TodoStatus.UNFINISH;
@@ -24,13 +24,13 @@ describe('save', () => {
     const todo = new Todo({ listId, title, status, isDelete });
     await todo.save();
 
-    const fetched = await Todo.findOne();
+    const query = await Todo.findOne();
 
-    expect(fetched).not.toBeNull();
-    expect(fetched?._id).not.toBeNull();
-    expect(fetched?.listId).toBe(listId);
-    expect(fetched?.title).toBe(title);
-    expect(fetched?.status).toBe(status);
-    expect(fetched?.isDelete).toBe(isDelete);
+    expect(query).not.toBeNull();
+    expect(query?._id).not.toBeNull();
+    expect(query?.listId).toBe(listId);
+    expect(query?.title).toBe(title);
+    expect(query?.status).toBe(status);
+    expect(query?.isDelete).toBe(isDelete);
   });
 });
