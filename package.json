@@ -7,7 +7,7 @@
     "start": "ts-node ./dist/src/app.js",
     "dev": "nodemon ./src/app.ts",
     "build": "tsc",
-    "test": "jest",
+    "test": "jest --no-cache  --detectOpenHandles",
     "seed": "ts-node -r tsconfig-paths/register ./src/models/seeds/seeder.ts"
   },
   "author": "",
