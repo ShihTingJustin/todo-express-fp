@@ -1,9 +1,10 @@
 import { connect, connection } from 'mongoose';
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/todo-express-fp';
-connect(MONGODB_URI);
+
+connect(MONGODB_URI).then(
+  () => console.log('MongoDB connected'),
+  (error) => console.log(error),
+);
+
 const db = connection;
-
-db.on('error', () => console.log('mongodb error!'));
-db.once('open', () => console.log('mongodb connected'));
-
 export default db;
