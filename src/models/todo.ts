@@ -1,32 +1,39 @@
-import { Document, Schema, model } from 'mongoose';
-import { ITodo, TodoStatus, TodoPriority } from '@Interfaces/I_todo';
+import { Document, Schema, model, Types } from 'mongoose';
 
-export interface MTodo extends Omit<ITodo, 'id'>, Document<string> {
-  isDelete: boolean;
+const TodoSchema = new Schema(
+  {
+    title: {
+      type: String,
+      require: true,
+    },
+    completed: {
+      type: Boolean,
+      require: true,
+      default: false,
+    },
+    priority: {
+      type: String,
+      require: false,
+    },
+    isDeleted: {
+      type: Boolean,
+      require: false,
+      default: false,
+    },
+    listId: {
+      type: Types.ObjectId,
+      required: true,
+      ref: 'List',
+    },
+  },
+  { timestamps: true },
+);
+
+export default model('Todo', TodoSchema);
+export interface ITodo extends Document {
+  title: string;
+  completed: boolean;
+  priority: string;
+  isDeleted: boolean;
+  listId: Types.ObjectId;
 }
-
-const todoSchema = new Schema<MTodo>({
-  listId: {
-    type: String,
-    require: true,
-  },
-  title: {
-    type: String,
-    require: true,
-  },
-  status: {
-    type: String,
-    require: true,
-    default: TodoStatus.UNFINISH,
-  },
-  priority: {
-    type: String,
-    require: false,
-  },
-  isDelete: {
-    type: Boolean,
-    require: false,
-  },
-});
-
-export default model('TODO', todoSchema);
