@@ -11,13 +11,16 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
-      "@Src/*": ["src/*"],
       "@Constants/*": ["src/constants/*"],
       "@Config/*": ["src/config/*"],
       "@Controllers/*": ["src/controllers/*"],
+      "@Entities/*": ["src/entities/*"],
       "@Interfaces/*": ["src/interfaces/*"],
+      "@Lib/*": ["src/lib/*"],
       "@Models/*": ["src/models/*"],
       "@Routes/*": ["src/routes/*"],
+      "@Src/*": ["src/*"],
+      "@Services/*": ["src/services/*"],
       "@Utils/*": ["src/utils/*"]
     },
     "plugins": [{ "transform": "typescript-transform-paths" }],
