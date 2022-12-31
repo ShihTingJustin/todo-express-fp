@@ -31,6 +31,25 @@ todoRouter.get('/:listId', todoController.getTodoByListId);
 /**
  * @swagger
  * paths:
+ *  /todo:
+ *    get:
+ *      summary: Get List and todos by user
+ *      tags:
+ *        - todo
+ *      responses:
+ *        "200":
+ *          description: success
+ *        "400":
+ *          description: bad request
+ *        "500":
+ *          description: unknown error
+ */
+todoRouter.get('/', todoController.getTodos);
+
+
+/**
+ * @swagger
+ * paths:
  *  /todo/search:
  *    post:
  *      summary: Search todo

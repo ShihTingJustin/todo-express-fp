@@ -9,12 +9,29 @@ import {
   groupTodoByList,
   getListByListId,
 } from '@Utils/index';
+import { getListAndTodoByUser } from '@Services/todoService';
 
 interface CustomRequest<T> extends Request {
   body: T;
 }
 
 const todoController = {
+  getTodos: async (
+    req: Request,
+    res: Response<{
+      status: string;
+      message?: string;
+      data: any;
+    }>,
+  ) => {
+    try {
+      const data = await getListAndTodoByUser();
+      return res.status(200).json({
+        status: 'success',
+        data,
+      });
+    } catch (error) {}
+  },
   getTodoByListId: async (
     req: Request,
     res: Response<{
