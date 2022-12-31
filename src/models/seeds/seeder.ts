@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker';
 import List from '@Models/list';
 import Todo from '@Models/todo';
-import db from '@Config/mongoose';
+import { db } from '@Config/mongoose';
 import { TodoStatus } from '@Interfaces/I_todo';
-import {createSeederData} from '@Utils/mock'
+import { createSeederData } from '@Utils/mock';
 
 db.once('open', async () => {
   try {
@@ -11,7 +11,7 @@ db.once('open', async () => {
     await createSeederData();
     console.log('seeder complete!');
     process.exit();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
 });

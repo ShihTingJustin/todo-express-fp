@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import { connection } from 'mongoose';
 import { TodoStatus } from '@Interfaces/I_todo';
 import Todo from '@Models/todo';
-import db from '@Config/mongoose';
+import { db } from '@Config/mongoose';
 
 beforeAll(() => {
   const db = connection;

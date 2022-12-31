@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { connection } from 'mongoose';
 import { createSeederData } from '@Utils/mock';
-import db from '@Config/mongoose';
+import { db } from '@Config/mongoose';
 import app from '@Src/app';
 import List from '@Models/list';
 

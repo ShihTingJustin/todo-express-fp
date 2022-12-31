@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { connection } from 'mongoose';
 import List from '@Models/list';
-import db from '@Config/mongoose';
+import { db } from '@Config/mongoose';
 
 beforeAll(() => {
   const db = connection;

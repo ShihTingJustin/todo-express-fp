@@ -3,7 +3,7 @@ import { connection } from 'mongoose';
 import { TodoStatus } from '@Interfaces/I_todo';
 import Todo from '@Models/todo';
 import List from '@Models/list';
-import db from '@Config/mongoose';
+import { db } from '@Config/mongoose';
 import app from '@Src/app';
 import {
   addTodo,

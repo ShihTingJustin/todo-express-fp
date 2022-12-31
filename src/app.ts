@@ -1,34 +1,25 @@
-import express, { Express, Request, Response } from 'express';
-import cors, { CorsOptionsDelegate } from 'cors';
-import bodyParser from 'body-parser';
+import express, { Express } from 'express';
 import allRouter from './routes';
+import { cors, corsOptionsDelegate } from '@Config/cors';
+import { db as mongoDBconnection } from '@Config/mongoose';
+import * as dotenv from 'dotenv';
+
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({ path: './.env.development' });
+} else {
+  dotenv.config();
+}
 
 const app: Express = express();
-const PORT = process.env.PORT || 3001;
-
-require('dotenv').config();
-require('./config/mongoose');
-
-const allowlist = [`${process.env.CLIENT_DOMAIN_1}`, `${process.env.CLIENT_DOMAIN_2}`];
-const corsOptionsDelegate: CorsOptionsDelegate<Request> = function (req, callback) {
-  let corsOptions;
-  if (allowlist.indexOf(req.header('origin') || '') !== -1) {
-    corsOptions = { origin: true, preflightContinue: true }; // reflect (enable) the requested origin in the CORS response
-  } else {
-    corsOptions = { origin: false }; // disable CORS for this request
-  }
-  callback(null, corsOptions); // callback expects two parameters: error and options
-};
+const PORT = process.env.PORT;
+mongoDBconnection;
 
 app.use(cors(corsOptionsDelegate));
-
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(allRouter);
 
 app.listen(PORT, () => {
-  console.log(`Express is listening on localhost:${PORT}`);
+  console.log(`Express is listening on 127.0.0.1:${PORT}`);
 });
 
 export default app;
