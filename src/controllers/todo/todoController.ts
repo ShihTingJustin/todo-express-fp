@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import Todo from '@Models/todo';
-import { ITodo, CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interfaces/I_todo';
+import Todo, { ITodo } from '@Models/todo';
+import { CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interfaces/I_todo';
 import {
   checkListIdValid,
   addTodo,
@@ -9,7 +9,7 @@ import {
   groupTodoByList,
   getListByListId,
 } from '@Utils/index';
-import { getListAndTodoByUser } from '@Services/todoService';
+import { getListAndTodoByUser, createTodoService } from '@Services/todoService';
 
 interface CustomRequest<T> extends Request {
   body: T;
@@ -105,22 +105,15 @@ const todoController = {
     res: Response<{
       status: string;
       message?: string;
-      data?: ITodo;
+      data?: ITodo | null;
     }>,
   ) => {
     try {
-      // TODO: fp-ts
-      const isListIdValid = await checkListIdValid(req.body.listId);
-
-      // TODO: validation
-
-      if (isListIdValid) {
-        const todo = await addTodo(req.body);
-        return res.status(200).json({
-          status: 'success',
-          data: todo,
-        });
-      }
+      const todo = await createTodoService(req.body);
+      return res.status(200).json({
+        status: 'success',
+        data: todo,
+      });
 
       // TODO: error handling
     } catch (err) {

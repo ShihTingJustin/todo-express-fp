@@ -1,6 +1,8 @@
 import { findListAndTodoFromUser } from '@Entities/userEntity';
+import { createTodo } from '@Entities/todoEntity';
 import { IUser } from '@Models/user';
 import { ITodo } from '@Models/todo';
+import { CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interfaces/I_todo';
 
 type TodoData = {
   [key: string]: {
@@ -32,6 +34,22 @@ export const getListAndTodoByUser = async () => {
       return { user, list, todo };
     }
     return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createTodoService = async (todo: CreateTodoReqBody) => {
+  try {
+    const data = await createTodo(todo);
+    if (data) {
+      return {
+        id: data._id,
+        title: data.title,
+        completed: data.completed,
+      } as ITodo;
+    }
+    return null;
   } catch (error) {
     console.log(error);
   }

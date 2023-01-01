@@ -102,7 +102,7 @@ todoRouter.post('/search', todoController.searchTodo);
  *        "500":
  *          description: unknown error
  */
-todoRouter.post('', todoController.createTodo);
+todoRouter.post('/', todoController.createTodo);
 
 /**
  * @swagger
