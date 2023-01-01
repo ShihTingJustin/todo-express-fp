@@ -14,8 +14,8 @@ export const updateTodo = (todo: ITodo) => {
   return Todo.findByIdAndUpdate(todo.id, todo, { new: true });
 };
 
-export const deleteTodo = (todoId: ITodo['id']) => {
-  return Todo.findByIdAndUpdate(todoId, { isDeleted: true });
+export const softDeleteTodo = (todoId: ITodo['id']) => {
+  return Todo.findByIdAndUpdate(todoId, { isDeleted: true }, { new: true });
 };
 
 export const getTodoAmountByListId = ({

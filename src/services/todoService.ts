@@ -1,5 +1,5 @@
 import { findListAndTodoFromUser } from '@Entities/userEntity';
-import { createTodo, updateTodo } from '@Entities/todoEntity';
+import { createTodo, updateTodo, softDeleteTodo } from '@Entities/todoEntity';
 import { IUser } from '@Models/user';
 import { ITodo } from '@Models/todo';
 import { CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interfaces/I_todo';
@@ -66,6 +66,15 @@ export const updateTodoService = async (todo: ITodo) => {
       } as ITodo;
     }
     return null;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteTodoService = async (todoId: string) => {
+  try {
+    const data = await softDeleteTodo(todoId);
+    return data?.isDeleted ?? null;
   } catch (error) {
     console.log(error);
   }

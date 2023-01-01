@@ -9,7 +9,12 @@ import {
   groupTodoByList,
   getListByListId,
 } from '@Utils/index';
-import { getListAndTodoByUser, createTodoService, updateTodoService } from '@Services/todoService';
+import {
+  getListAndTodoByUser,
+  createTodoService,
+  updateTodoService,
+  deleteTodoService,
+} from '@Services/todoService';
 
 interface CustomRequest<T> extends Request {
   body: T;
@@ -166,8 +171,8 @@ const todoController = {
     try {
       // TODO: validation
 
-      const todo = await updateTodoByTodoId(req.params.todoId, { isDelete: true });
-      if (todo) {
+      const result = await deleteTodoService(req.params.todoId);
+      if (result) {
         return res.status(200).json({
           status: 'success',
         });
