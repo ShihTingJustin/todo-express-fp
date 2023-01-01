@@ -21,4 +21,29 @@ const listRouter = express.Router();
  */
 listRouter.get('', listController.getAllList);
 
+/**
+ * @swagger
+ * paths:
+ *  /list/{listId}:
+ *    get:
+ *      summary: Get todos by listId
+ *      tags:
+ *        - list
+ *      parameters:
+ *        - in: path
+ *          name: listId
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: listId
+ *      responses:
+ *        "200":
+ *          description: success
+ *        "400":
+ *          description: bad request
+ *        "500":
+ *          description: unknown error
+ */
+listRouter.get('/:listId', listController.getListById);
+
 export default listRouter;
