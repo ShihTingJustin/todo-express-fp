@@ -1,4 +1,6 @@
 import { Document, Schema, model, Types } from 'mongoose';
+import User from '@Models/user';
+import List from '@Models/list';
 
 const TodoSchema = new Schema(
   {
@@ -28,6 +30,16 @@ const TodoSchema = new Schema(
   },
   { timestamps: true },
 );
+
+TodoSchema.post('save', async function (next) {
+  try {
+    const todo = this;
+    await List.updateOne({ _id: todo.listId }, { $addToSet: { todos: todo._id } });
+    // next();
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 export default model('Todo', TodoSchema);
 export interface ITodo extends Document {
