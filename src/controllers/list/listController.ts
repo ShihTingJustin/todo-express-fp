@@ -2,8 +2,27 @@ import { Request, Response } from 'express';
 import List from '@Models/list';
 import { IList } from '@Interfaces/I_list';
 import { getTodoAmountByListId } from '@Utils/index';
+import { getListByListId } from '@Services/listService';
 
 const listController = {
+  getListById: async (
+    req: Request,
+    res: Response<{
+      status: string;
+      message?: string;
+      data: any;
+    }>,
+  ) => {
+    try {
+      const data = await getListByListId(req.params.listId);
+      return res.status(200).json({
+        status: 'success',
+        data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
   getAllList: async (
     req: Request,
     res: Response<{
