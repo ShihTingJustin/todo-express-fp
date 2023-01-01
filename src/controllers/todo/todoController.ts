@@ -9,7 +9,7 @@ import {
   groupTodoByList,
   getListByListId,
 } from '@Utils/index';
-import { getListAndTodoByUser, createTodoService } from '@Services/todoService';
+import { getListAndTodoByUser, createTodoService, updateTodoService } from '@Services/todoService';
 
 interface CustomRequest<T> extends Request {
   body: T;
@@ -124,7 +124,7 @@ const todoController = {
     }
   },
   updateTodo: async (
-    req: CustomRequest<UpdateTodoReqBody>,
+    req: CustomRequest<ITodo>,
     res: Response<{
       status: string;
       message?: string;
@@ -134,14 +134,11 @@ const todoController = {
     try {
       // TODO: validation
       console.log(req.body);
-      const { todoId, ...rest } = req.body;
-      const update = rest;
-
-      const todo = await Todo.findByIdAndUpdate(todoId, update, { new: true });
-      console.log(todo);
+      const todo = await updateTodoService(req.body);
       if (todo) {
         return res.status(200).json({
           status: 'success',
+          data: todo,
         });
       } else {
         return res.status(400).json({

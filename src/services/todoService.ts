@@ -1,5 +1,5 @@
 import { findListAndTodoFromUser } from '@Entities/userEntity';
-import { createTodo } from '@Entities/todoEntity';
+import { createTodo, updateTodo } from '@Entities/todoEntity';
 import { IUser } from '@Models/user';
 import { ITodo } from '@Models/todo';
 import { CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interfaces/I_todo';
@@ -42,6 +42,22 @@ export const getListAndTodoByUser = async () => {
 export const createTodoService = async (todo: CreateTodoReqBody) => {
   try {
     const data = await createTodo(todo);
+    if (data) {
+      return {
+        id: data._id,
+        title: data.title,
+        completed: data.completed,
+      } as ITodo;
+    }
+    return null;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateTodoService = async (todo: ITodo) => {
+  try {
+    const data = await updateTodo(todo);
     if (data) {
       return {
         id: data._id,

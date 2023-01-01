@@ -11,7 +11,7 @@ export const createTodo = (todo: CreateTodoReqBody) => {
 };
 
 export const updateTodo = (todo: ITodo) => {
-  return Todo.findByIdAndUpdate(todo.id, todo);
+  return Todo.findByIdAndUpdate(todo.id, todo, { new: true });
 };
 
 export const deleteTodo = (todoId: ITodo['id']) => {

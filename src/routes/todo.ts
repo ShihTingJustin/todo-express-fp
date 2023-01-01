@@ -107,7 +107,7 @@ todoRouter.post('/', todoController.createTodo);
 /**
  * @swagger
  * paths:
- *  /todo/{todoId}:
+ *  /todo:
  *    put:
  *      summary: Update a todo
  *      tags:
@@ -118,13 +118,13 @@ todoRouter.post('/', todoController.createTodo);
  *          schema:
  *            type: object
  *            properties:
- *              todoId:
+ *              id:
  *                type: string
- *                format: uuid
+ *                format: string
  *              title:
  *                type: string
- *              status:
- *                type: string
+ *              completed:
+ *                type: boolean
  *      responses:
  *        "200":
  *          description: success
@@ -133,7 +133,7 @@ todoRouter.post('/', todoController.createTodo);
  *        "500":
  *          description: unknown error
  */
-todoRouter.put('', todoController.updateTodo);
+todoRouter.put('/', todoController.updateTodo);
 
 /**
  * @swagger
