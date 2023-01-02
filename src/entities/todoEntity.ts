@@ -28,7 +28,7 @@ export const getTodoAmountByListId = ({
   return Todo.countDocuments({ listId, isDelete }).lean();
 };
 
-export const searchTodoByFilter = ({ keyword }: { keyword: string }) => {
+export const findTodoByFilter = (keyword: string) => {
   return Todo.find(
     {
       $or: [{ title: { $regex: new RegExp(keyword, 'i') } }],
@@ -39,5 +39,10 @@ export const searchTodoByFilter = ({ keyword }: { keyword: string }) => {
       sort: { _id: 1 },
       limit: 10,
     },
-  );
+  )
+    .populate({
+      path: 'listId',
+      select: '-owner -todos -__v -createdAt -updatedAt',
+    })
+    .select('-__v -createdAt -updatedAt');
 };

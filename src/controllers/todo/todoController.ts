@@ -14,6 +14,7 @@ import {
   createTodoService,
   updateTodoService,
   deleteTodoService,
+  searchTodoService,
 } from '@Services/todoService';
 
 interface CustomRequest<T> extends Request {
@@ -90,13 +91,11 @@ const todoController = {
   ) => {
     try {
       const { keyword } = req.body;
-      const data = await searchTodoByFilter({ keyword });
-
-      const groupData = await groupTodoByList(data || []);
+      const data = await searchTodoService(keyword);
 
       return res.status(200).json({
         status: 'success',
-        data: groupData,
+        data,
       });
     } catch (err) {
       return res.status(500).json({
