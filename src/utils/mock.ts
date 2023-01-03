@@ -21,7 +21,7 @@ export const createSeederData = async () => {
           listId: list._id,
           title: faker.word.noun(),
           status: false,
-          isDelete: false,
+          isDeleted: false,
         })),
       )
       .flat();

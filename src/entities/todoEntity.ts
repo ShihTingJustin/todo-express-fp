@@ -27,7 +27,7 @@ export const findTodoByFilter = (keyword: string) => {
   return Todo.find(
     {
       $or: [{ title: { $regex: new RegExp(keyword, 'i') } }],
-      $and: [{ isDelete: false }],
+      $and: [{ isDeleted: false }],
     },
     {},
     {

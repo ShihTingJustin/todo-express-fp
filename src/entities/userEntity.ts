@@ -1,7 +1,9 @@
 import User from '@Models/user';
 
 export const findListAndTodoFromUser = () => {
-  return User.findOne()
+  return User.findOne({
+    $and: [{ isDeleted: false }],
+  })
     .populate({
       path: 'lists',
       select: '-owner -__v -createdAt -updatedAt',
