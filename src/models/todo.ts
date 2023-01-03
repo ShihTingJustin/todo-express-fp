@@ -1,4 +1,4 @@
-import { Document, Schema, model, Types } from 'mongoose';
+import { Document, Schema, model, Types, Error } from 'mongoose';
 import User from '@Models/user';
 import List from '@Models/list';
 
@@ -31,11 +31,19 @@ const TodoSchema = new Schema(
   { timestamps: true },
 );
 
-TodoSchema.post('save', async function (next) {
+TodoSchema.post('save', async function (doc: ITodo) {
   try {
-    const todo = this;
-    await List.updateOne({ _id: todo.listId }, { $addToSet: { todos: todo._id } });
-    // next();
+    console.log(36, { doc });
+    await List.updateOne({ _id: doc.listId }, { $addToSet: { todos: doc._id } });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// https://github.com/Automattic/mongoose/issues/964
+TodoSchema.post('findOneAndUpdate', async function (doc: ITodo) {
+  try {
+    await List.updateOne({ _id: doc.listId }, { $pull: { todos: doc._id } });
   } catch (error) {
     console.log(error);
   }

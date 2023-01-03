@@ -11,11 +11,11 @@ export const createTodo = (todo: CreateTodoReqBody) => {
 };
 
 export const updateTodo = (todo: ITodo) => {
-  return Todo.findByIdAndUpdate(todo.id, todo, { new: true });
+  return Todo.findOneAndUpdate({ _id: todo.id }, todo, { new: true });
 };
 
 export const softDeleteTodo = (todoId: ITodo['id']) => {
-  return Todo.findByIdAndUpdate(todoId, { isDeleted: true }, { new: true });
+  return Todo.findOneAndUpdate({ _id: todoId }, { isDeleted: true }, { new: true });
 };
 
 export const getTodoAmountByListId = ({
