@@ -1,14 +1,6 @@
 import { Request, Response } from 'express';
-import Todo, { ITodo } from '@Models/todo';
+import { ITodo } from '@Models/todo';
 import { CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interfaces/I_todo';
-import {
-  checkListIdValid,
-  addTodo,
-  updateTodoByTodoId,
-  searchTodoByFilter,
-  groupTodoByList,
-  getListByListId,
-} from '@Utils/index';
 import {
   getListAndTodoByUserService,
   createTodoService,

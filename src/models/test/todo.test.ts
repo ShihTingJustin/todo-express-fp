@@ -30,7 +30,7 @@ describe('save', () => {
     expect(query?._id).not.toBeNull();
     expect(query?.listId).toBe(listId);
     expect(query?.title).toBe(title);
-    expect(query?.status).toBe(status);
-    expect(query?.isDelete).toBe(isDelete);
+    expect(query?.completed).toBe(status);
+    expect(query?.isDeleted).toBe(isDelete);
   });
 });
