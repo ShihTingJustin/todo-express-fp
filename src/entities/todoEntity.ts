@@ -1,10 +1,5 @@
-import List from '@Models/list';
 import Todo, { ITodo } from '@Models/todo';
 import { CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interfaces/I_todo';
-
-export const getListByListId = (listId: string) => {
-  return List.findById(listId).lean();
-};
 
 export const createTodo = (todo: CreateTodoReqBody) => {
   return Todo.create(todo);

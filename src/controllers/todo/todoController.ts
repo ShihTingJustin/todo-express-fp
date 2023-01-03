@@ -10,7 +10,7 @@ import {
   getListByListId,
 } from '@Utils/index';
 import {
-  getListAndTodoByUser,
+  getListAndTodoByUserService,
   createTodoService,
   updateTodoService,
   deleteTodoService,
@@ -31,55 +31,12 @@ const todoController = {
     }>,
   ) => {
     try {
-      const data = await getListAndTodoByUser();
+      const data = await getListAndTodoByUserService();
       return res.status(200).json({
         status: 'success',
         data,
       });
     } catch (error) {}
-  },
-  getTodoByListId: async (
-    req: Request,
-    res: Response<{
-      status: string;
-      message?: string;
-      data?: {
-        listTitle: string;
-        todo: ITodo[];
-      };
-    }>,
-  ) => {
-    try {
-      const todoData = await Todo.find({ listId: req.params.listId, isDelete: false }).exec();
-      const listData = await getListByListId(req.params.listId);
-
-      if (todoData && listData) {
-        const resData = {
-          listTitle: listData.title,
-          todo: todoData.map((todo) => ({
-            id: todo._id,
-            title: todo.title,
-            listId: todo.listId,
-            status: todo.status,
-          })),
-        };
-
-        return res.status(200).json({
-          status: 'success',
-          data: resData,
-        });
-      } else {
-        return res.status(400).json({
-          status: 'error',
-          message: 'not found',
-        });
-      }
-    } catch (err) {
-      return res.status(500).json({
-        status: 'error',
-        message: 'Internal Server Error',
-      });
-    }
   },
   searchTodo: async (
     req: CustomRequest<SearchTodoBody>,

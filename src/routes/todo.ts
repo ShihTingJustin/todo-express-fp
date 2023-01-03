@@ -6,31 +6,6 @@ const todoRouter = express.Router();
 /**
  * @swagger
  * paths:
- *  /todo/{listId}:
- *    get:
- *      summary: Get todos by listId
- *      tags:
- *        - todo
- *      parameters:
- *        - in: path
- *          name: listId
- *          schema:
- *            type: string
- *          required: true
- *          description: listId
- *      responses:
- *        "200":
- *          description: success
- *        "400":
- *          description: bad request
- *        "500":
- *          description: unknown error
- */
-todoRouter.get('/:listId', todoController.getTodoByListId);
-
-/**
- * @swagger
- * paths:
  *  /todo:
  *    get:
  *      summary: Get List and todos by user

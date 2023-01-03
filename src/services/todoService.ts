@@ -12,7 +12,7 @@ type TodoData = {
   };
 };
 
-export const getListAndTodoByUser = async () => {
+export const getListAndTodoByUserService = async () => {
   try {
     const data = await findListAndTodoFromUser();
     if (data) {
