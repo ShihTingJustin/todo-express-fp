@@ -8,7 +8,7 @@ import { CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interface
 type TodoData = {
   [key: string]: {
     listTitle: string;
-    todo: Array<ITodo>;
+    todo: Array<Pick<ITodo, 'id' | 'title' | 'completed'>>;
   };
 };
 
@@ -27,7 +27,11 @@ export const getListAndTodoByUserService = async () => {
         if (!(list._id in acc)) acc[list._id] = { listTitle: '', todo: [] };
         acc[list._id] = {
           listTitle: list.title,
-          todo: list.todos,
+          todo: list.todos.map((todo) => ({
+            id: todo._id,
+            title: todo.title,
+            completed: todo.completed,
+          })),
         };
         return acc;
       }, {} as TodoData);
