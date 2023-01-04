@@ -1,11 +1,12 @@
-import Todo, { ITodo } from '@Models/todo';
-import { CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interfaces/I_todo';
+import Todo from '@Models/todo';
+import { ITodo } from '@Interfaces/I_todo';
+import { CreateTodoReqBody, UpdateTodoReqBody } from '@Interfaces/I_todo';
 
 export const createTodo = (todo: CreateTodoReqBody) => {
   return Todo.create(todo);
 };
 
-export const updateTodo = (todo: ITodo) => {
+export const updateTodo = (todo: UpdateTodoReqBody) => {
   return Todo.findOneAndUpdate({ _id: todo.id }, todo, { new: true });
 };
 

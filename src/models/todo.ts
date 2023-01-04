@@ -31,9 +31,8 @@ const TodoSchema = new Schema(
   { timestamps: true },
 );
 
-TodoSchema.post('save', async function (doc: ITodo) {
+TodoSchema.post('save', async function (doc: DTodo) {
   try {
-    console.log(36, { doc });
     await List.updateOne({ _id: doc.listId }, { $addToSet: { todos: doc._id } });
   } catch (error) {
     console.log(error);
@@ -41,7 +40,7 @@ TodoSchema.post('save', async function (doc: ITodo) {
 });
 
 // https://github.com/Automattic/mongoose/issues/964
-TodoSchema.post('findOneAndUpdate', async function (doc: ITodo) {
+TodoSchema.post('findOneAndUpdate', async function (doc: DTodo) {
   try {
     await List.updateOne({ _id: doc.listId }, { $pull: { todos: doc._id } });
   } catch (error) {
@@ -50,7 +49,7 @@ TodoSchema.post('findOneAndUpdate', async function (doc: ITodo) {
 });
 
 export default model('Todo', TodoSchema);
-export interface ITodo extends Document {
+export interface DTodo extends Document {
   title: string;
   completed: boolean;
   priority: string;

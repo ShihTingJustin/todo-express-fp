@@ -1,9 +1,10 @@
+import isEmpty from 'lodash.isempty';
 import { findListAndTodoFromUser } from '@Entities/userEntity';
 import { createTodo, updateTodo, softDeleteTodo, findTodoByFilter } from '@Entities/todoEntity';
 import { IUser } from '@Models/user';
-import { ITodo } from '@Models/todo';
+import { DTodo } from '@Models/todo';
 import { IList } from '@Models/list';
-import { CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interfaces/I_todo';
+import { ITodo, CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interfaces/I_todo';
 
 type TodoData = {
   [key: string]: {
@@ -47,30 +48,16 @@ export const getListAndTodoByUserService = async () => {
 export const createTodoService = async (todo: CreateTodoReqBody) => {
   try {
     const data = await createTodo(todo);
-    if (data) {
-      return {
-        id: data._id,
-        title: data.title,
-        completed: data.completed,
-      } as ITodo;
-    }
-    return null;
+    return !isEmpty(data);
   } catch (error) {
     console.log(error);
   }
 };
 
-export const updateTodoService = async (todo: ITodo) => {
+export const updateTodoService = async (todo: UpdateTodoReqBody) => {
   try {
     const data = await updateTodo(todo);
-    if (data) {
-      return {
-        id: data._id,
-        title: data.title,
-        completed: data.completed,
-      } as ITodo;
-    }
-    return null;
+    return !isEmpty(data);
   } catch (error) {
     console.log(error);
   }

@@ -1,26 +1,19 @@
+import { DTodo } from '@Models/todo';
+
 export enum TodoPriority {
   LOW = 'low',
   MED = 'medium',
   HIGH = 'high',
 }
 
-export enum TodoStatus {
-  FINISH = 'finished',
-  UNFINISH = 'unfinished',
-}
-
-export interface ITodo {
+export type ITodo = Pick<DTodo, 'title' | 'completed' | 'priority' | 'isDeleted' | 'listId'> & {
   id: string;
-  listId: string;
-  title: string;
-  status: TodoStatus;
-  priority?: TodoPriority;
-}
+};
 
 export type CreateTodoReqBody = Omit<ITodo, 'id'>;
-export type UpdateTodoReqBody = Partial<Omit<ITodo, 'id'>> & { todoId: string };
+export type UpdateTodoReqBody = Partial<Omit<ITodo, 'id'>> & Pick<ITodo, 'id'>;
 export type SearchTodoBody = {
-  keyword: string
-}
+  keyword: string;
+};
 
 export default ITodo;

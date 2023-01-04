@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { ITodo } from '@Models/todo';
 import { CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interfaces/I_todo';
 import {
   getListAndTodoByUserService,
@@ -58,15 +57,20 @@ const todoController = {
     res: Response<{
       status: string;
       message?: string;
-      data?: ITodo | null;
     }>,
   ) => {
     try {
-      const todo = await createTodoService(req.body);
-      return res.status(200).json({
-        status: 'success',
-        data: todo,
-      });
+      const result = await createTodoService(req.body);
+      if (result) {
+        return res.status(200).json({
+          status: 'success',
+        });
+      } else {
+        return res.status(503).json({
+          status: 'error',
+          message: 'Service Unavailable',
+        });
+      }
 
       // TODO: error handling
     } catch (err) {
@@ -77,26 +81,23 @@ const todoController = {
     }
   },
   updateTodo: async (
-    req: CustomRequest<ITodo>,
+    req: CustomRequest<UpdateTodoReqBody>,
     res: Response<{
       status: string;
       message?: string;
-      data?: ITodo;
     }>,
   ) => {
     try {
       // TODO: validation
-      console.log(req.body);
-      const todo = await updateTodoService(req.body);
-      if (todo) {
+      const result = await updateTodoService(req.body);
+      if (result) {
         return res.status(200).json({
           status: 'success',
-          data: todo,
         });
       } else {
-        return res.status(400).json({
+        return res.status(503).json({
           status: 'error',
-          message: 'not found',
+          message: 'Service Unavailable',
         });
       }
 
@@ -113,7 +114,6 @@ const todoController = {
     res: Response<{
       status: string;
       message?: string;
-      data?: ITodo;
     }>,
   ) => {
     try {
@@ -125,9 +125,9 @@ const todoController = {
           status: 'success',
         });
       } else {
-        return res.status(400).json({
+        return res.status(503).json({
           status: 'error',
-          message: 'not found',
+          message: 'Service Unavailable',
         });
       }
 
