@@ -1,4 +1,4 @@
-import { ITodo } from '@Models/todo';
+import { DTodo } from '@Models/todo';
 import { Document, Schema, model, Types } from 'mongoose';
 
 const listSchema = new Schema(
@@ -24,8 +24,8 @@ const listSchema = new Schema(
 );
 
 export default model('List', listSchema);
-export interface IList extends Document {
+export interface DList extends Document {
   owner: Types.ObjectId;
   title: string;
-  todos: Array<ITodo>;
+  todos: Array<DTodo>;
 }

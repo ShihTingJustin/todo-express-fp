@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker';
 import { connection } from 'mongoose';
-import { TodoStatus } from '@Interfaces/I_todo';
 import Todo from '@Models/todo';
 import { db } from '@Config/mongoose';
 
@@ -18,10 +17,10 @@ describe('save', () => {
   it('should create todo', async () => {
     const listId = faker.datatype.uuid();
     const title = faker.internet.avatar();
-    const status = TodoStatus.UNFINISH;
+    const isCompleted = false;
     const isDelete = false;
 
-    const todo = new Todo({ listId, title, status, isDelete });
+    const todo = new Todo({ listId, title, isCompleted, isDelete });
     await todo.save();
 
     const query = await Todo.findOne();

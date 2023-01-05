@@ -1,5 +1,5 @@
 import { Document, Schema, model, Types } from 'mongoose';
-import { IList } from '@Models/list';
+import { DList } from '@Models/list';
 
 const UserSchema = new Schema(
   {
@@ -19,7 +19,7 @@ const UserSchema = new Schema(
 );
 
 export default model('User', UserSchema);
-export interface IUser extends Document {
+export interface DUser extends Document {
   name: string;
-  lists: Array<IList>;
+  lists: Array<DList>;
 }

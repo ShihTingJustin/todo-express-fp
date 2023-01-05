@@ -1,11 +1,11 @@
 import { findListByListId } from '@Entities/listEntity';
-import { IList } from '@Models/list';
+import { DList } from '@Models/list';
 
 export const getListByListId = async (listId: string) => {
   try {
     const data = await findListByListId(listId);
     if (data) {
-      const { _id, title, todos } = data as unknown as IList;
+      const { _id, title, todos } = data as unknown as DList;
       return {
         id: _id,
         title,

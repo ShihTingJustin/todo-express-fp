@@ -1,9 +1,9 @@
 import isEmpty from 'lodash.isempty';
 import { findListAndTodoFromUser } from '@Entities/userEntity';
 import { createTodo, updateTodo, softDeleteTodo, findTodoByFilter } from '@Entities/todoEntity';
-import { IUser } from '@Models/user';
+import { DUser } from '@Models/user';
 import { DTodo } from '@Models/todo';
-import { IList } from '@Models/list';
+import { DList } from '@Models/list';
 import { ITodo, CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interfaces/I_todo';
 
 type TodoData = {
@@ -17,7 +17,7 @@ export const getListAndTodoByUserService = async () => {
   try {
     const data = await findListAndTodoFromUser();
     if (data) {
-      const { _id, name, lists } = data as unknown as IUser;
+      const { _id, name, lists } = data as unknown as DUser;
       const user = { id: _id, name };
       const list = lists.map((list) => ({
         id: list._id,
@@ -75,7 +75,7 @@ export const deleteTodoService = async (todoId: string) => {
 export const searchTodoService = async (keyword: string) => {
   try {
     const data = (await findTodoByFilter(keyword)) as unknown as Array<
-      ITodo & { listId: Pick<IList, '_id' | 'title'> }
+      DTodo & { listId: Pick<DList, '_id' | 'title'> }
     >;
     const gatherTodoByListId = data.reduce(
       (acc, curr) => {
