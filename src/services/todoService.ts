@@ -3,9 +3,9 @@ import { pipe } from 'fp-ts/function';
 import isEmpty from 'lodash.isempty';
 import { findListAndTodoFromUser } from '@Entities/userEntity';
 import { createTodo, updateTodo, softDeleteTodo, findTodoByFilter } from '@Entities/todoEntity';
-import { DUser } from '@Models/user';
-import { DTodo } from '@Models/todo';
-import { DList } from '@Models/list';
+import { IUserDocument } from '@Models/user';
+import { ITodoDocument } from '@Models/todo';
+import { IListDocument } from '@Models/list';
 import { ITodo, CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interfaces/I_todo';
 
 type TodoData = {
@@ -15,7 +15,7 @@ type TodoData = {
   };
 };
 
-const formatResponse = (data: DUser) => {
+const formatResponse = (data: IUserDocument) => {
   const { _id, name, lists } = data;
   const user = { id: _id, name };
   const list = lists.map((list) => ({
@@ -78,7 +78,7 @@ export const deleteTodoService = async (todoId: string) => {
 export const searchTodoService = async (keyword: string) => {
   try {
     const data = (await findTodoByFilter(keyword)) as unknown as Array<
-      DTodo & { listId: Pick<DList, '_id' | 'title'> }
+      ITodoDocument & { listId: Pick<IListDocument, '_id' | 'title'> }
     >;
     const gatherTodoByListId = data.reduce(
       (acc, curr) => {
