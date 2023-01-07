@@ -1,4 +1,4 @@
-import { DTodo } from '@Models/todo';
+import { ITodoDocument } from '@Models/todo';
 
 export enum TodoPriority {
   LOW = 'low',
@@ -6,7 +6,10 @@ export enum TodoPriority {
   HIGH = 'high',
 }
 
-export type ITodo = Pick<DTodo, 'title' | 'completed' | 'priority' | 'isDeleted' | 'listId'> & {
+export type ITodo = Pick<
+  ITodoDocument,
+  'title' | 'completed' | 'priority' | 'isDeleted' | 'listId'
+> & {
   id: string;
 };
 

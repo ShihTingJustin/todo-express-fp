@@ -1,6 +1,6 @@
-import User, { DUser } from '@Models/user';
+import User, { IUserDocument } from '@Models/user';
 
-export const findListAndTodoFromUser: () => Promise<DUser> = async () =>
+export const findListAndTodoFromUser: () => Promise<IUserDocument> = async () =>
   User.findOne({
     $and: [{ isDeleted: false }],
   })
