@@ -25,19 +25,18 @@ todoRouter.get('/', todoController.getTodos);
 /**
  * @swagger
  * paths:
- *  /todo/search:
- *    post:
+ *  /todo/search/{keyword}:
+ *    get:
  *      summary: Search todo
  *      tags:
  *        - todo
- *      requestBody:
- *       content:
- *        application/json:
+ *      parameters:
+ *        - in: path
+ *          name: keyword
  *          schema:
- *            type: object
- *            properties:
- *              keyword:
- *                type: string
+ *            type: string
+ *          required: true
+ *          description: keyword for searching
  *      responses:
  *        "200":
  *          description: success
@@ -46,7 +45,7 @@ todoRouter.get('/', todoController.getTodos);
  *        "500":
  *          description: unknown error
  */
-todoRouter.post('/search', todoController.searchTodo);
+todoRouter.get('/search/:keyword', todoController.searchTodo);
 
 /**
  * @swagger
@@ -64,7 +63,6 @@ todoRouter.post('/search', todoController.searchTodo);
  *            properties:
  *              listId:
  *                type: string
- *                format: uuid
  *              title:
  *                type: string
  *              status:

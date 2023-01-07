@@ -48,8 +48,8 @@ const todoController = {
     }>,
   ) => {
     try {
-      const { keyword } = req.body;
-      const data = await searchTodoService(keyword);
+      console.log(req.params);
+      const data = await searchTodoService(req.params.keyword);
 
       return res.status(200).json({
         status: 'success',
@@ -91,7 +91,7 @@ const todoController = {
     }
   },
   updateTodo: async (
-    req: CustomRequest<UpdateTodoReqBody>,
+    req: Request,
     res: Response<{
       status: string;
       message?: string;
