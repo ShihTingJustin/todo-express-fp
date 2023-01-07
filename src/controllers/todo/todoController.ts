@@ -1,3 +1,5 @@
+import * as TE from 'fp-ts/TaskEither';
+import { pipe } from 'fp-ts/function';
 import { Request, Response } from 'express';
 import { CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interfaces/I_todo';
 import {
@@ -18,17 +20,25 @@ const todoController = {
     res: Response<{
       status: string;
       message?: string;
-      data: any;
+      data?: any;
     }>,
-  ) => {
-    try {
-      const data = await getListAndTodoByUserService();
-      return res.status(200).json({
-        status: 'success',
-        data,
-      });
-    } catch (error) {}
-  },
+  ) =>
+    pipe(
+      TE.tryCatch(
+        () => getListAndTodoByUserService(),
+        (reason) =>
+          res.status(500).json({
+            status: 'error',
+            message: 'Internal Server Error',
+          }),
+      ),
+      TE.map((data) =>
+        res.status(200).json({
+          status: 'success',
+          data: data._tag === 'Right' ? data.right : null,
+        }),
+      ),
+    )(),
   searchTodo: async (
     req: CustomRequest<SearchTodoBody>,
     res: Response<{

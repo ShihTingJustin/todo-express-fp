@@ -1,17 +1,7 @@
-import { Query, LeanDocument } from 'mongoose';
 import User, { DUser } from '@Models/user';
-import { DTodo } from '@Models/todo';
 
-type UserListTodoData = {
-  name: string;
-  List: {
-    title: string;
-    todos: Array<DTodo>;
-  };
-};
-
-export const findListAndTodoFromUser = () => {
-  return User.findOne({
+export const findListAndTodoFromUser: () => Promise<DUser> = async () =>
+  User.findOne({
     $and: [{ isDeleted: false }],
   })
     .populate({
@@ -24,4 +14,3 @@ export const findListAndTodoFromUser = () => {
     })
     .select('-__v -createdAt -updatedAt')
     .lean();
-};

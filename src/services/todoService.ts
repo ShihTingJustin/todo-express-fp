@@ -1,5 +1,4 @@
-import { Either } from 'fp-ts/Either';
-import { TaskEither as TE, tryCatch } from 'fp-ts/TaskEither';
+import * as TE from 'fp-ts/TaskEither';
 import { pipe } from 'fp-ts/function';
 import isEmpty from 'lodash.isempty';
 import { findListAndTodoFromUser } from '@Entities/userEntity';
@@ -16,23 +15,7 @@ type TodoData = {
   };
 };
 
-type Error = 'error';
-
-const getUserData = (data: DUser) => ({ id: data._id, name: data.name });
-const getListData = (data: DUser) => data;
-
-const getAllData = (): TE<Error, any> =>
-  tryCatch(
-    async () => {
-      const data = await findListAndTodoFromUser();
-      if (isEmpty(data)) throw new Error('error');
-      console.log(28, data);
-      return data;
-    },
-    (error) => error as unknown as Error,
-  );
-
-const gatherData = (data: DUser) => {
+const formatResponse = (data: DUser) => {
   const { _id, name, lists } = data;
   const user = { id: _id, name };
   const list = lists.map((list) => ({
@@ -56,46 +39,14 @@ const gatherData = (data: DUser) => {
   return { user, list, todo };
 };
 
-// FP().then(
-//   Either.fold(
-//     (error) => console.error(error),
-//     (todo) => console.log(todo),
-//   ),
-// );
-
-export const getListAndTodoByUserService = async () => {
-  try {
-    const data = await findListAndTodoFromUser();
-    const FP = () => pipe(data, gatherData);
-    console.log(FP());
-    if (data) {
-      const { _id, name, lists } = data as unknown as DUser;
-      const user = { id: _id, name };
-      const list = lists.map((list) => ({
-        id: list._id,
-        title: list.title,
-        todoAmount: list.todos.length,
-      }));
-      const todo = lists.reduce((acc, list) => {
-        if (!(list._id in acc)) acc[list._id] = { listTitle: '', todo: [] };
-        acc[list._id] = {
-          listTitle: list.title,
-          todo: list.todos.map((todo) => ({
-            id: todo._id,
-            title: todo.title,
-            completed: todo.completed,
-          })),
-        };
-        return acc;
-      }, {} as TodoData);
-
-      return { user, list, todo };
-    }
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+export const getListAndTodoByUserService = () =>
+  pipe(
+    TE.tryCatch(
+      () => findListAndTodoFromUser(),
+      (reason) => new Error(String(reason)),
+    ),
+    TE.map((data) => formatResponse(data)),
+  )();
 
 export const createTodoService = async (todo: CreateTodoReqBody) => {
   try {
