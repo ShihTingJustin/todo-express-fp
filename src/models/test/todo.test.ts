@@ -1,11 +1,14 @@
 import { faker } from '@faker-js/faker';
 import { connection } from 'mongoose';
+import { createSeederData } from '@Utils/mock';
+import List from '@Models/list';
 import Todo from '@Models/todo';
 import { db } from '@Config/mongoose';
 
-beforeAll(() => {
+beforeAll(async () => {
   const db = connection;
   db.once('open', () => console.log('mongodb connected'));
+  await createSeederData();
 });
 
 afterAll(async () => {
@@ -15,21 +18,21 @@ afterAll(async () => {
 
 describe('save', () => {
   it('should create todo', async () => {
-    const listId = faker.datatype.uuid();
+    const listQuery = await List.findOne();
     const title = faker.internet.avatar();
     const isCompleted = false;
-    const isDelete = false;
+    const isDeleted = false;
 
-    const todo = new Todo({ listId, title, isCompleted, isDelete });
-    await todo.save();
+    const todo = new Todo({ listId: listQuery?._id, title, isCompleted, isDeleted });
+    const newTodo = await todo.save();
 
-    const query = await Todo.findOne();
+    const query = await Todo.findOne({ _id: newTodo._id });
 
     expect(query).not.toBeNull();
     expect(query?._id).not.toBeNull();
-    expect(query?.listId).toBe(listId);
+    expect(query?.listId).toStrictEqual(listQuery?._id);
     expect(query?.title).toBe(title);
-    expect(query?.completed).toBe(status);
-    expect(query?.isDeleted).toBe(isDelete);
+    expect(query?.completed).toBe(isCompleted);
+    expect(query?.isDeleted).toBe(isDeleted);
   });
 });

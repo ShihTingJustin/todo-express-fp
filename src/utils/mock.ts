@@ -20,7 +20,7 @@ export const createSeederData = async () => {
         Array.from({ length: index }, () => ({
           listId: list._id,
           title: faker.word.noun(),
-          status: false,
+          completed: false,
           isDeleted: false,
         })),
       )
