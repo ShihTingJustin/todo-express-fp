@@ -21,7 +21,8 @@
       "@Routes/*": ["src/routes/*"],
       "@Src/*": ["src/*"],
       "@Services/*": ["src/services/*"],
-      "@Utils/*": ["src/utils/*"]
+      "@Utils/*": ["src/utils/*"],
+      "@Validators/*": ["src/validators/*"],
     },
     "plugins": [{ "transform": "typescript-transform-paths" }],
     "outDir": "./dist",
