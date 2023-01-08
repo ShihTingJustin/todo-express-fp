@@ -20,7 +20,7 @@ yarn dev
 ```
 5. use it on
 ```
-http://localhost:3001/
+http://127.0.0.1:3001/api-docs
 ```
 
 ## Stack
@@ -29,6 +29,7 @@ http://localhost:3001/
 * Node.js
 * swagger
 * Jest
+* fp-ts
 
 ## Author
 [ShihTingJustin](https://github.com/ShihTingJustin)
