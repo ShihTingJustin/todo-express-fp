@@ -37,6 +37,7 @@ export const todoSchemaValidateOption: { [key: string]: Schema } = {
       in: 'body',
       isString: true,
       escape: true,
+      optional: true,
       errorMessage: 'title is wrong',
     },
     completed: {
