@@ -22,7 +22,7 @@
       "@Src/*": ["src/*"],
       "@Services/*": ["src/services/*"],
       "@Utils/*": ["src/utils/*"],
-      "@Validators/*": ["src/validators/*"],
+      "@Validators/*": ["src/validators/*"]
     },
     "plugins": [{ "transform": "typescript-transform-paths" }],
     "outDir": "./dist",
