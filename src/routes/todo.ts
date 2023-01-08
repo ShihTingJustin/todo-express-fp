@@ -1,5 +1,8 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import { checkSchema } from 'express-validator';
 import todoController from '@Controllers/todo/todoController';
+import { validator } from '@Validators/index';
+import { todoSchemaValidateOption } from '@Validators/todoValidator';
 
 const todoRouter = express.Router();
 
@@ -20,7 +23,6 @@ const todoRouter = express.Router();
  *          description: unknown error
  */
 todoRouter.get('/', todoController.getTodos);
-
 
 /**
  * @swagger
@@ -45,7 +47,12 @@ todoRouter.get('/', todoController.getTodos);
  *        "500":
  *          description: unknown error
  */
-todoRouter.get('/search/:keyword', todoController.searchTodo);
+todoRouter.get(
+  '/search/:keyword',
+  checkSchema(todoSchemaValidateOption.searchTodo),
+  validator,
+  todoController.searchTodo,
+);
 
 /**
  * @swagger
@@ -65,8 +72,8 @@ todoRouter.get('/search/:keyword', todoController.searchTodo);
  *                type: string
  *              title:
  *                type: string
- *              status:
- *                type: string
+ *              completed:
+ *                type: boolean
  *      responses:
  *        "200":
  *          description: success
@@ -75,7 +82,12 @@ todoRouter.get('/search/:keyword', todoController.searchTodo);
  *        "500":
  *          description: unknown error
  */
-todoRouter.post('/', todoController.createTodo);
+todoRouter.post(
+  '/',
+  checkSchema(todoSchemaValidateOption.createTodo),
+  validator,
+  todoController.createTodo,
+);
 
 /**
  * @swagger
@@ -106,7 +118,12 @@ todoRouter.post('/', todoController.createTodo);
  *        "500":
  *          description: unknown error
  */
-todoRouter.put('/', todoController.updateTodo);
+todoRouter.put(
+  '/',
+  checkSchema(todoSchemaValidateOption.updateTodo),
+  validator,
+  todoController.updateTodo,
+);
 
 /**
  * @swagger
@@ -131,6 +148,11 @@ todoRouter.put('/', todoController.updateTodo);
  *        "500":
  *          description: unknown error
  */
-todoRouter.delete('/:todoId', todoController.deleteTodo);
+todoRouter.delete(
+  '/:todoId',
+  checkSchema(todoSchemaValidateOption.deleteTodo),
+  validator,
+  todoController.deleteTodo,
+);
 
 export default todoRouter;

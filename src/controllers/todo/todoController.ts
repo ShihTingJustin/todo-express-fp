@@ -48,9 +48,7 @@ const todoController = {
     }>,
   ) => {
     try {
-      console.log(req.params);
       const data = await searchTodoService(req.params.keyword);
-
       return res.status(200).json({
         status: 'success',
         data,
