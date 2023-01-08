@@ -16,11 +16,10 @@ afterAll(async () => {
   await db.close();
 });
 
-describe('GET /todo/{listId}', () => {
+describe('GET /todo/', () => {
   it('', async () => {
-    const list = await List.findOne();
     const res = await request(app)
-      .get(`/todo/${list!._id}`)
+      .get(`/todo/`)
       .set({ 'Content-Type': 'application/json' })
       .expect(200);
 
@@ -28,5 +27,6 @@ describe('GET /todo/{listId}', () => {
     expect(res).toBeTruthy();
     expect(res.body.status).toStrictEqual('success');
     expect(res.body.data).toBeTruthy();
+    expect(res.body.data.list).toHaveLength(5);
   });
 });
