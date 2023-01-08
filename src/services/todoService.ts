@@ -6,13 +6,16 @@ import { createTodo, updateTodo, softDeleteTodo, findTodoByFilter } from '@Entit
 import { IUserDocument } from '@Models/user';
 import { ITodoDocument } from '@Models/todo';
 import { IListDocument } from '@Models/list';
-import { ITodo, CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interfaces/I_todo';
+import { ITodo, CreateTodoReqBody, UpdateTodoReqBody } from '@Interfaces/I_todo';
+
+type TodoItem = {
+  id: string;
+  title: string;
+  todo: Array<Pick<ITodo, 'id' | 'title' | 'completed'>>;
+};
 
 type TodoData = {
-  [key: string]: {
-    listTitle: string;
-    todo: Array<Pick<ITodo, 'id' | 'title' | 'completed'>>;
-  };
+  [key: string]: TodoItem;
 };
 
 const formatResponse = (data: IUserDocument) => {
@@ -24,9 +27,10 @@ const formatResponse = (data: IUserDocument) => {
     todoAmount: list.todos.length,
   }));
   const todo = lists.reduce((acc, list) => {
-    if (!(list._id in acc)) acc[list._id] = { listTitle: '', todo: [] };
+    if (!(list._id in acc)) acc[list._id] = {} as TodoItem;
     acc[list._id] = {
-      listTitle: list.title,
+      id: list._id,
+      title: list.title,
       todo: list.todos.map((todo) => ({
         id: todo._id,
         title: todo.title,
@@ -75,31 +79,26 @@ export const deleteTodoService = async (todoId: string) => {
   }
 };
 
-export const searchTodoService = async (keyword: string) => {
-  try {
-    const data = (await findTodoByFilter(keyword)) as unknown as Array<
-      ITodoDocument & { listId: Pick<IListDocument, '_id' | 'title'> }
-    >;
-    const gatherTodoByListId = data.reduce(
-      (acc, curr) => {
-        const { listId, _id, title, completed } = curr;
-        if (!(curr.listId._id in acc)) {
-          acc[curr.listId._id] = { id: listId._id, title: listId.title, todo: [] };
-        }
-        acc[listId._id].todo.push({ id: _id, title, completed });
-        return acc;
-      },
-      {} as {
-        [key: string]: {
-          id: string;
-          title: string;
-          todo: Array<Pick<ITodo, 'id' | 'title' | 'completed'>>;
-        };
-      },
-    );
-
-    return Object.values(gatherTodoByListId);
-  } catch (error) {
-    console.log(error);
-  }
+const formatSearchResponse = (data: Array<ITodoDocument & { listId: IListDocument }>) => {
+  return Object.values(
+    data.reduce((acc, curr) => {
+      const { listId, _id, title, completed } = curr;
+      if (!(curr.listId._id in acc)) {
+        acc[curr.listId._id] = { id: listId._id, title: listId.title, todo: [] };
+      }
+      acc[listId._id].todo.push({ id: _id, title, completed });
+      return acc;
+    }, {} as TodoData),
+  );
 };
+
+export const searchTodoService = (keyword: string) =>
+  pipe(
+    TE.tryCatch(
+      () => findTodoByFilter(keyword),
+      (reason) => new Error(String(reason)),
+    ),
+    TE.map((data) =>
+      formatSearchResponse(data as unknown as Array<ITodoDocument & { listId: IListDocument }>),
+    ),
+  )();

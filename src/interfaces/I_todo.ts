@@ -15,8 +15,5 @@ export type ITodo = Pick<
 
 export type CreateTodoReqBody = Omit<ITodo, 'id'>;
 export type UpdateTodoReqBody = Partial<Omit<ITodo, 'id'>> & Pick<ITodo, 'id'>;
-export type SearchTodoBody = {
-  keyword: string;
-};
 
 export default ITodo;

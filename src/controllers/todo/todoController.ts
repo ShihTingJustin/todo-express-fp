@@ -1,7 +1,7 @@
 import * as TE from 'fp-ts/TaskEither';
 import { pipe } from 'fp-ts/function';
 import { Request, Response } from 'express';
-import { CreateTodoReqBody, UpdateTodoReqBody, SearchTodoBody } from '@Interfaces/I_todo';
+import { CreateTodoReqBody, UpdateTodoReqBody } from '@Interfaces/I_todo';
 import {
   getListAndTodoByUserService,
   createTodoService,
@@ -15,7 +15,7 @@ interface CustomRequest<T> extends Request {
 }
 
 const todoController = {
-  getTodos: async (
+  getTodos: (
     req: Request,
     res: Response<{
       status: string;
@@ -39,27 +39,30 @@ const todoController = {
         }),
       ),
     )(),
-  searchTodo: async (
-    req: CustomRequest<SearchTodoBody>,
+  searchTodo: (
+    req: Request,
     res: Response<{
       status: string;
       message?: string;
       data?: any;
     }>,
-  ) => {
-    try {
-      const data = await searchTodoService(req.params.keyword);
-      return res.status(200).json({
-        status: 'success',
-        data,
-      });
-    } catch (err) {
-      return res.status(500).json({
-        status: 'error',
-        message: 'Internal Server Error',
-      });
-    }
-  },
+  ) =>
+    pipe(
+      TE.tryCatch(
+        () => searchTodoService(req.params.keyword),
+        (reason) =>
+          res.status(500).json({
+            status: 'error',
+            message: 'Internal Server Error',
+          }),
+      ),
+      TE.map((data) =>
+        res.status(200).json({
+          status: 'success',
+          data: data._tag === 'Right' ? data.right : null,
+        }),
+      ),
+    )(),
   createTodo: async (
     req: CustomRequest<CreateTodoReqBody>,
     res: Response<{
@@ -89,7 +92,7 @@ const todoController = {
     }
   },
   updateTodo: async (
-    req: Request,
+    req: CustomRequest<UpdateTodoReqBody>,
     res: Response<{
       status: string;
       message?: string;

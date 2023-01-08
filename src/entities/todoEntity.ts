@@ -24,7 +24,7 @@ export const getTodoAmountByListId = ({
   return Todo.countDocuments({ listId, isDelete }).lean();
 };
 
-export const findTodoByFilter = (keyword: string) => {
+export const findTodoByFilter = async (keyword: string) => {
   return Todo.find(
     {
       $or: [{ title: { $regex: new RegExp(keyword, 'i') } }],
