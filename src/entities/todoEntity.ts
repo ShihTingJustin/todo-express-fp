@@ -16,12 +16,12 @@ export const softDeleteTodo = (todoId: ITodo['id']) => {
 
 export const getTodoAmountByListId = ({
   listId,
-  isDelete = false,
+  isDeleted = false,
 }: {
   listId: string;
-  isDelete?: boolean;
+  isDeleted?: boolean;
 }) => {
-  return Todo.countDocuments({ listId, isDelete }).lean();
+  return Todo.countDocuments({ listId, isDeleted }).lean();
 };
 
 export const findTodoByFilter = async (keyword: string) => {
