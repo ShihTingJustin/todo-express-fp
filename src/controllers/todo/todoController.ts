@@ -82,8 +82,6 @@ const todoController = {
           message: 'Service Unavailable',
         });
       }
-
-      // TODO: error handling
     } catch (err) {
       return res.status(500).json({
         status: 'error',
@@ -99,7 +97,6 @@ const todoController = {
     }>,
   ) => {
     try {
-      // TODO: validation
       const result = await updateTodoService(req.body);
       if (result) {
         return res.status(200).json({
@@ -112,7 +109,6 @@ const todoController = {
         });
       }
 
-      // TODO: error handling
     } catch (err) {
       return res.status(500).json({
         status: 'error',
@@ -128,8 +124,6 @@ const todoController = {
     }>,
   ) => {
     try {
-      // TODO: validation
-
       const result = await deleteTodoService(req.params.todoId);
       if (result) {
         return res.status(200).json({
@@ -141,8 +135,6 @@ const todoController = {
           message: 'Service Unavailable',
         });
       }
-
-      // TODO: error handling
     } catch (err) {
       return res.status(500).json({
         status: 'error',
