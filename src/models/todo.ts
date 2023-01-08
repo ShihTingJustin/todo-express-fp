@@ -42,7 +42,11 @@ TodoSchema.post('save', async function (doc: ITodoDocument) {
 // https://github.com/Automattic/mongoose/issues/964
 TodoSchema.post('findOneAndUpdate', async function (doc: ITodoDocument) {
   try {
-    await List.updateOne({ _id: doc.listId }, { $pull: { todos: doc._id } });
+    if (doc.isDeleted) {
+      await List.updateOne({ _id: doc.listId }, { $pull: { todos: doc._id } });
+    } else {
+      await List.updateOne({ _id: doc.listId }, { $addToSet: { todos: doc._id } });
+    }
   } catch (error) {
     console.log(error);
   }
