@@ -1,6 +1,6 @@
 export interface IList {
   id: string;
   title: string;
-  todoAmount: number;
+  incompleteTodoAmount: number;
   owner: string;
 }

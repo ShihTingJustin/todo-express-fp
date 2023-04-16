@@ -24,7 +24,7 @@ const formatResponse = (data: IUserDocument) => {
   const list = lists.map((list) => ({
     id: list._id,
     title: list.title,
-    todoAmount: list.todos.length,
+    incompleteTodoAmount: list.todos.filter((todo) => !todo.completed).length,
   }));
   const todo = lists.reduce((acc, list) => {
     if (!(list._id in acc)) acc[list._id] = {} as TodoItem;
