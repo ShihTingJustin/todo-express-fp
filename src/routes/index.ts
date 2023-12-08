@@ -6,9 +6,11 @@ import swaggerConfig from '@Config/swagger';
 
 import todoRouter from './todo';
 import listRouter from './list';
+import emsRouter from './ems';
 
 const allRouter = express.Router();
 
+allRouter.use('/ems', emsRouter);
 allRouter.use('/todo', todoRouter);
 allRouter.use('/list', listRouter);
 allRouter.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsDoc(swaggerConfig)));
