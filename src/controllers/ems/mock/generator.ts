@@ -40,20 +40,62 @@ import dayjs from 'dayjs';
 //   return data;
 // }
 
-export function generateMockData(dataPoints: number, interval = 'day') {
+export function createPieChartMockData() {
+  return {
+    surplus: [
+      {
+        name: 'Total',
+        total: faker.number.int({ min: 1000, max: 5000 }),
+      },
+      {
+        name: 'Surplus',
+        total: faker.number.int({ min: 1000, max: 5000 }),
+      },
+    ],
+
+    re: [
+      {
+        name: 'Total',
+        total: faker.number.int({ min: 1000, max: 5000 }),
+      },
+      {
+        name: 'Gray',
+        total: faker.number.int({ min: 1000, max: 5000 }),
+      },
+    ],
+  };
+}
+
+export function generateMockData({ type, dataPoints, interval = 'day' }: GenerateMockDataParams) {
   const data = [];
   let currentDate = dayjs();
 
   for (let i = 0; i < dataPoints; i++) {
-    data.unshift({
-      timestamp: currentDate.toDate(),
-      solar: faker.number.int({ min: 1000, max: 5000 }),
-      wind: faker.number.int({ min: 1000, max: 5000 }),
-      load: faker.number.int({ min: 1000, max: 5000 }),
-    });
+    switch (type) {
+      case 'lineSimple':
+        data.unshift({
+          timestamp: currentDate.toDate(),
+          solar: faker.number.int({ min: 1000, max: 5000 }),
+          wind: faker.number.int({ min: 1000, max: 5000 }),
+          load: faker.number.int({ min: 1000, max: 5000 }),
+        });
+        break;
+      
+      case 'barSimple':
+        data.unshift({
+          timestamp: currentDate.toDate(),
+          total: faker.number.int({ min: 1000, max: 5000 }),
+        });
+        break;
+
+      default:
+        break;
+    }
 
     currentDate = currentDate.subtract(1, interval);
   }
 
   return data;
 }
+
+export type GenerateMockDataParams = { type: string; dataPoints: number; interval: string };

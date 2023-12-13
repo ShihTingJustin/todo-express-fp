@@ -1,11 +1,6 @@
 import { Request, Response } from 'express';
-import {
-  powerAnalysis,
-  sidebar,
-  mockWidgetData,
-  mockLineChartData,
-  mockBarChartData,
-} from './mock';
+import { mockWidgetData, mockLineChartData, mockBarChartData } from './mock/mockOverview';
+import { sidebar } from './mock/mockSidebar';
 
 const emsController = {
   getSidebarData: async (req: Request, res: Response<any>) => {
@@ -34,10 +29,18 @@ const emsController = {
       console.log(dataPoints, interval, type);
       let data;
 
-      if (type === 'line') {
-        data = mockLineChartData(Number(dataPoints), String(interval));
-      } else if (type === 'bar') {
-        data = mockBarChartData(Number(dataPoints), String(interval));
+      if (type === 'lineSimple') {
+        data = mockLineChartData({
+          type,
+          dataPoints: Number(dataPoints),
+          interval: String(interval),
+        });
+      } else if (type === 'barSimple') {
+        data = mockBarChartData({
+          type,
+          dataPoints: Number(dataPoints),
+          interval: String(interval),
+        });
       }
 
       return res.status(200).json({

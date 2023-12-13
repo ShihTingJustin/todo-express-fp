@@ -66,7 +66,7 @@ emsRouter.get('/overview/widget', emsController.getOverviewWidgetData);
  *          name: type
  *          schema:
  *          type: string
- *          default: line
+ *          default: lineSimple
  *          required: true
  *          description: type for chart
  *      responses:
