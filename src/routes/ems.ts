@@ -82,9 +82,9 @@ emsRouter.get('/overview/chart', emsController.getOverviewChartData);
 /**
  * @swagger
  * paths:
- *  /ems/power-analysis:
+ *  /ems/power-analysis/widget:
  *    get:
- *      summary: Get power-analysis data
+ *      summary: Get power-analysis widget data
  *      tags:
  *        - EMS
  *      responses:
@@ -95,6 +95,47 @@ emsRouter.get('/overview/chart', emsController.getOverviewChartData);
  *        "500":
  *          description: unknown error
  */
-emsRouter.get('/power-analysis', emsController.getPowerAnalysisData);
+emsRouter.get('/power-analysis/widget', emsController.getPowerAnalysisWidgetData);
+
+/**
+ * @swagger
+ * paths:
+ *  /ems/power-analysis/chart:
+ *    get:
+ *      summary: Get power-analysis data
+ *      tags:
+ *        - EMS
+ *      parameters:
+ *        - in: query
+ *          name: dataPoints
+ *          schema:
+ *          type: integer
+ *          required: true
+ *          default: 30
+ *          description: dataPoints for chart
+ *        - in: query
+ *          name: interval
+ *          schema:
+ *          type: string
+ *          default: day
+ *          required: true
+ *          description: interval for chart
+ *        - in: query
+ *          name: type
+ *          schema:
+ *          type: string
+ *          select: [sankeySimple, pie, barSimple, barGroup]
+ *          default: sankeySimple
+ *          required: true
+ *          description: type for chart
+ *      responses:
+ *        "200":
+ *          description: success
+ *        "400":
+ *          description: bad request
+ *        "500":
+ *          description: unknown error
+ */
+emsRouter.get('/power-analysis/chart', emsController.getPowerAnalysisChartData);
 
 export default emsRouter;

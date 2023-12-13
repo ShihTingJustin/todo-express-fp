@@ -1,6 +1,12 @@
 import { Request, Response } from 'express';
 import { mockWidgetData, mockLineChartData, mockBarChartData } from './mock/mockOverview';
 import { sidebar } from './mock/mockSidebar';
+import {
+  powerAnalysis,
+  mockSankeyChartData,
+  mockPieChartData,
+  mockPowerAnalysisWidgetData,
+} from './mock/mockPowerAnalysis';
 
 const emsController = {
   getSidebarData: async (req: Request, res: Response<any>) => {
@@ -26,7 +32,6 @@ const emsController = {
   getOverviewChartData: async (req: Request, res: Response<any>) => {
     try {
       const { dataPoints, interval, type } = req.query;
-      console.log(dataPoints, interval, type);
       let data;
 
       if (type === 'lineSimple') {
@@ -51,11 +56,40 @@ const emsController = {
       console.log(error);
     }
   },
-  getPowerAnalysisData: async (req: Request, res: Response<any>) => {
+  getPowerAnalysisWidgetData: async (req: Request, res: Response<any>) => {
     try {
       return res.status(200).json({
         status: 'success',
-        data: powerAnalysis,
+        data: mockPowerAnalysisWidgetData(),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  getPowerAnalysisChartData: async (req: Request, res: Response<any>) => {
+    try {
+      const { dataPoints, interval, type } = req.query;
+      let data;
+
+      if (type === 'sankeySimple') {
+        data = mockSankeyChartData({
+          type,
+          dataPoints: Number(dataPoints),
+          interval: String(interval),
+        });
+      } else if (type === 'pie') {
+        data = mockPieChartData();
+      } else if (type === 'barSimple') {
+        data = mockBarChartData({
+          type: 'barGroup',
+          dataPoints: Number(dataPoints),
+          interval: String(interval),
+        });
+      }
+
+      return res.status(200).json({
+        status: 'success',
+        data,
       });
     } catch (error) {
       console.log(error);

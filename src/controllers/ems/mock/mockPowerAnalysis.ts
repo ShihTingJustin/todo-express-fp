@@ -1,7 +1,6 @@
-import { generateMockData } from './generator';
+import { generateMockData, createPieChartMockData, GenerateMockDataParams } from './generator';
 
-
-export function mockWidgetData() {
+export function mockPowerAnalysisWidgetData() {
   return [
     {
       title: 'Power Transfer',
@@ -30,71 +29,33 @@ export function mockWidgetData() {
   ];
 }
 
-export function mockLineChartData(dataPoints: number, interval = 'day') {
+export function mockSankeyChartData({
+  type,
+  dataPoints,
+  interval = 'day',
+}: GenerateMockDataParams) {
   return {
-    type: 'lineSimple',
+    type: 'sankeySimple',
     title: 'Power Mix',
-    data: generateMockData(dataPoints, interval),
+    data: generateMockData({ type, dataPoints, interval }),
   };
 }
 
-export function mockBarChartData(dataPoints: number, interval = 'day') {
+export function mockPieChartData() {
+  return {
+    type: 'pie',
+    title: 'Power Mix',
+    data: createPieChartMockData(),
+  };
+}
+
+export function mockBarChartData({ type, dataPoints, interval = 'day' }: GenerateMockDataParams) {
   return {
     type: 'barSimple',
-    title: 'Overview1',
-    data: [
-      {
-        name: 'Jan',
-        total: 2076,
-      },
-      {
-        name: 'Feb',
-        total: 1662,
-      },
-      {
-        name: 'Mar',
-        total: 1950,
-      },
-      {
-        name: 'Apr',
-        total: 2848,
-      },
-      {
-        name: 'May',
-        total: 5440,
-      },
-      {
-        name: 'Jun',
-        total: 2050,
-      },
-      {
-        name: 'Jul',
-        total: 2504,
-      },
-      {
-        name: 'Aug',
-        total: 4552,
-      },
-      {
-        name: 'Sep',
-        total: 2239,
-      },
-      {
-        name: 'Oct',
-        total: 1182,
-      },
-      {
-        name: 'Nov',
-        total: 5062,
-      },
-      {
-        name: 'Dec',
-        total: 1256,
-      },
-    ],
+    title: 'Power Mix',
+    data: generateMockData({ type, dataPoints, interval }),
   };
 }
-
 
 export const powerAnalysis = {
   widget: [
