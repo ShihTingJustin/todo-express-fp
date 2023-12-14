@@ -32,22 +32,22 @@ export function createPieChartMockData() {
     surplus: [
       {
         name: 'Total',
-        total: faker.number.int({ min: 1000, max: 5000 }),
+        value: faker.number.int({ min: 1000, max: 5000 }),
       },
       {
         name: 'Surplus',
-        total: faker.number.int({ min: 1000, max: 5000 }),
+        value: faker.number.int({ min: 1000, max: 5000 }),
       },
     ],
 
     re: [
       {
         name: 'Total',
-        total: faker.number.int({ min: 1000, max: 5000 }),
+        value: faker.number.int({ min: 1000, max: 5000 }),
       },
       {
         name: 'Gray',
-        total: faker.number.int({ min: 1000, max: 5000 }),
+        value: faker.number.int({ min: 1000, max: 5000 }),
       },
     ],
   };
