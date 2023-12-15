@@ -54,34 +54,53 @@ export function createPieChartMockData() {
 }
 
 export function generateMockData({ type, dataPoints, interval = 'day' }: GenerateMockDataParams) {
-  const data = [];
+  let data;
+
+  switch (type) {
+    case 'lineSimple':
+    case 'barSimple':
+    case 'barGroup':
+      data = [];
+      break;
+
+    case 'geoMercator':
+      data = {};
+      break;
+  }
+
   let currentDate = dayjs();
 
   for (let i = 0; i < dataPoints; i++) {
     switch (type) {
       case 'lineSimple':
-        data.unshift({
-          timestamp: currentDate.toDate(),
-          solar: faker.number.int({ min: 1000, max: 5000 }),
-          wind: faker.number.int({ min: 1000, max: 5000 }),
-          load: faker.number.int({ min: 1000, max: 5000 }),
-        });
+        if (Array.isArray(data)) {
+          data.unshift({
+            timestamp: currentDate.toDate(),
+            solar: faker.number.int({ min: 1000, max: 5000 }),
+            wind: faker.number.int({ min: 1000, max: 5000 }),
+            load: faker.number.int({ min: 1000, max: 5000 }),
+          });
+        }
         break;
 
       case 'barSimple':
-        data.unshift({
-          timestamp: currentDate.toDate(),
-          total: faker.number.int({ min: 1000, max: 5000 }),
-        });
+        if (Array.isArray(data)) {
+          data.unshift({
+            timestamp: currentDate.toDate(),
+            total: faker.number.int({ min: 1000, max: 5000 }),
+          });
+        }
         break;
 
       case 'barGroup':
-        data.unshift({
-          timestamp: currentDate.toDate(),
-          solar: faker.number.int({ min: 1000, max: 5000 }),
-          wind: faker.number.int({ min: 1000, max: 5000 }),
-          gray: faker.number.int({ min: 1000, max: 5000 }),
-        });
+        if (Array.isArray(data)) {
+          data.unshift({
+            timestamp: currentDate.toDate(),
+            solar: faker.number.int({ min: 1000, max: 5000 }),
+            wind: faker.number.int({ min: 1000, max: 5000 }),
+            gray: faker.number.int({ min: 1000, max: 5000 }),
+          });
+        }
         break;
 
       case 'sankeySimple':
@@ -105,6 +124,38 @@ export function generateMockData({ type, dataPoints, interval = 'day' }: Generat
           }
         }
         return { nodes, links };
+
+      case 'geoMercator':
+        const countryInfo = {
+          USA: 'United States of America',
+          GBR: 'United Kingdom',
+          TWN: 'Taiwan',
+          DEU: 'Germany',
+          ZAF: 'South Africa',
+          CHN: 'China',
+          IND: 'India',
+          JPN: 'Japan',
+          RUS: 'Russia',
+          MEX: 'Mexico',
+          BRA: 'Brazil',
+        };
+
+        Object.keys(countryInfo).forEach((countryCode) => {
+          data = {};
+          // @ts-ignore
+          data[countryCode] = {
+            id: countryCode,
+            // @ts-ignore
+            countryName: countryInfo[countryCode],
+            total: faker.number.int({ min: 20, max: 100 }),
+            subtotal: [
+              { type: 'solar', title: 'Solar', value: faker.number.int({ min: 5, max: 50 }) },
+              { type: 'wind', title: 'Wind', value: faker.number.int({ min: 5, max: 50 }) },
+              { type: 'gray', title: 'Gray', value: faker.number.int({ min: 5, max: 50 }) },
+            ],
+          };
+        });
+        break;
 
       default:
         break;
