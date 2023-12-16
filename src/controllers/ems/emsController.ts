@@ -90,7 +90,9 @@ const emsController = {
           break;
 
         case 'pie':
-          data = mockPieChartData();
+          if (req.query?.subType) {
+            data = mockPieChartData(req.query?.subType);
+          }
           break;
 
         case 'barSimple':

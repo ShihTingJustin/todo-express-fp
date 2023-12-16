@@ -128,6 +128,12 @@ emsRouter.get('/power-analysis/widget', emsController.getPowerAnalysisWidgetData
  *          default: sankeySimple
  *          required: true
  *          description: type for chart
+ *        - in: query
+ *          name: subType
+ *          schema:
+ *          type: string
+ *          placeholder: surplus
+ *          required: false
  *      responses:
  *        "200":
  *          description: success

@@ -41,11 +41,11 @@ export function mockSankeyChartData({
   };
 }
 
-export function mockPieChartData() {
+export function mockPieChartData(subType: string) {
   return {
     type: 'pie',
     title: 'Power Mix',
-    data: createPieChartMockData(),
+    data: createPieChartMockData(subType),
   };
 }
 
