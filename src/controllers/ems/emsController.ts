@@ -1,5 +1,10 @@
 import { Request, Response } from 'express';
-import { mockWidgetData, mockLineChartData, mockBarChartData } from './mock/mockOverview';
+import {
+  mockWidgetData,
+  mockLineChartData,
+  mockBarChartData,
+  mockSummaryData,
+} from './mock/mockOverview';
 import { sidebar } from './mock/mockSidebar';
 import {
   mockGeoChartData,
@@ -38,26 +43,47 @@ const emsController = {
 
   getOverviewChartData: async (req: Request, res: Response<any>) => {
     try {
-      const { dataPoints, interval, type } = req.query;
+      const { dataPoints: rawDataPoints, interval: rawInterval, type } = req.query;
+      const dataPoints = Number(rawDataPoints);
+      const interval = String(rawInterval);
+
       let data;
 
-      if (type === 'lineSimple') {
-        data = mockLineChartData({
-          type,
-          dataPoints: Number(dataPoints),
-          interval: String(interval),
-        });
-      } else if (type === 'barSimple') {
-        data = mockBarChartData({
-          type,
-          dataPoints: Number(dataPoints),
-          interval: String(interval),
-        });
+      switch (type) {
+        case 'lineSimple':
+          data = mockLineChartData({
+            type,
+            dataPoints,
+            interval,
+          });
+          break;
+
+        case 'barSimple':
+          data = mockBarChartData({
+            type,
+            dataPoints,
+            interval,
+          });
+          break;
+
+        default:
+          break;
       }
 
       return res.status(200).json({
         status: 'success',
         data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  getOverviewSummaryData: async (req: Request, res: Response<any>) => {
+    try {
+      return res.status(200).json({
+        status: 'success',
+        data: mockSummaryData(),
       });
     } catch (error) {
       console.log(error);

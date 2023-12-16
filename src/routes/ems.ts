@@ -82,6 +82,46 @@ emsRouter.get('/overview/chart', emsController.getOverviewChartData);
 /**
  * @swagger
  * paths:
+ *  /ems/overview/summary:
+ *    get:
+ *      summary: Get overview summary data
+ *      tags:
+ *        - EMS
+ *      parameters:
+ *        - in: query
+ *          name: dataPoints
+ *          schema:
+ *          type: integer
+ *          required: false
+ *          default: 30
+ *          description: dataPoints for summary
+ *        - in: query
+ *          name: interval
+ *          schema:
+ *          type: string
+ *          default: day
+ *          required: false
+ *          description: interval for summary
+ *        - in: query
+ *          name: type
+ *          schema:
+ *          type: string
+ *          default: lineSimple
+ *          required: false
+ *          description: type for summary
+ *      responses:
+ *        "200":
+ *          description: success
+ *        "400":
+ *          description: bad request
+ *        "500":
+ *          description: unknown error
+ */
+emsRouter.get('/overview/summary', emsController.getOverviewSummaryData);
+
+/**
+ * @swagger
+ * paths:
  *  /ems/power-analysis/widget:
  *    get:
  *      summary: Get power-analysis widget data

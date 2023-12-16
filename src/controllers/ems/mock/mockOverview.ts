@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { generateMockData, GenerateMockDataParams } from './generator';
 
 export const sidebar = {
@@ -91,4 +92,80 @@ export function mockBarChartData({ type, dataPoints, interval = 'day' }: Generat
     title: 'Overview1',
     data: generateMockData({ type, dataPoints, interval }),
   };
+}
+
+export function mockSummaryData() {
+  return {
+    upper: [
+      {
+        key: 'surplus',
+        title: 'Surplus',
+        value: faker.number.float({ min: 1, max: 10, precision: 0.1 }),
+        bgColor: 'blue',
+      },
+      {
+        key: 're',
+        title: 'RE',
+        value: faker.number.float({ min: 70, max: 90, precision: 0.1 }),
+        bgColor: 'green',
+      },
+      {
+        key: 'gray',
+        title: 'Gray',
+        value: faker.number.float({ min: 10, max: 25, precision: 0.1 }),
+        bgColor: 'gray',
+      },
+    ],
+    lower: {
+      title: '綠能電費比',
+      amount: faker.number.float({ min: 80, max: 90, precision: 0.1 }),
+      difference: faker.number.float({ min: 1, max: 5, precision: 0.1 }),
+      lineChartData: mockLineTinyData(),
+    },
+  };
+}
+
+export function mockLineTinyData() {
+  return [
+    {
+      timestamp: faker.date.recent(),
+      value: faker.number.int({ min: 20, max: 60 }),
+    },
+    {
+      timestamp: faker.date.recent(),
+      value: faker.number.int({ min: 20, max: 60 }),
+    },
+    {
+      timestamp: faker.date.recent(),
+      value: faker.number.int({ min: 20, max: 60 }),
+    },
+    {
+      timestamp: faker.date.recent(),
+      value: faker.number.int({ min: 20, max: 50 }),
+    },
+    {
+      timestamp: faker.date.recent(),
+      value: faker.number.int({ min: 20, max: 70 }),
+    },
+    {
+      timestamp: faker.date.recent(),
+      value: faker.number.int({ min: 50, max: 60 }),
+    },
+    {
+      timestamp: faker.date.recent(),
+      value: faker.number.int({ min: 50, max: 60 }),
+    },
+    {
+      timestamp: faker.date.recent(),
+      value: faker.number.int({ min: 60, max: 70 }),
+    },
+    {
+      timestamp: faker.date.recent(),
+      value: faker.number.int({ min: 60, max: 70 }),
+    },
+    {
+      timestamp: faker.date.recent(),
+      value: faker.number.int({ min: 70, max: 80 }),
+    },
+  ];
 }
