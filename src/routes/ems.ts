@@ -24,6 +24,32 @@ emsRouter.get('/sidebar', emsController.getSidebarData);
 /**
  * @swagger
  * paths:
+ *  /ems/table:
+ *    get:
+ *      summary: Get table data
+ *      tags:
+ *        - EMS
+ *      parameters:
+ *        - in: query
+ *          name: dataPoints
+ *          schema:
+ *          type: integer
+ *          required: true
+ *          default: 3
+ *          description: dataPoints for table
+ *      responses:
+ *        "200":
+ *          description: success
+ *        "400":
+ *          description: bad request
+ *        "500":
+ *          description: unknown error
+ */
+emsRouter.get('/table', emsController.getTableData);
+
+/**
+ * @swagger
+ * paths:
  *  /ems/overview/widget:
  *    get:
  *      summary: Get overview widget data

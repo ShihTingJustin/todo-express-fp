@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { mockTableData } from './mock/mockTable';
 import {
   mockWidgetData,
   mockLineChartData,
@@ -24,6 +25,19 @@ const emsController = {
       return res.status(200).json({
         status: 'success',
         data: sidebar,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  getTableData: async (req: Request, res: Response<any>) => {
+    try {
+      const { dataPoints } = req.query;
+
+      return res.status(200).json({
+        status: 'success',
+        data: mockTableData({ dataPoints: Number(dataPoints) }),
       });
     } catch (error) {
       console.log(error);
