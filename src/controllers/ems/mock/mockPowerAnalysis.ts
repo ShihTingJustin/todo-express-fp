@@ -3,28 +3,28 @@ import { generateMockData, createPieChartMockData, GenerateMockDataParams } from
 export function mockPowerAnalysisWidgetData() {
   return [
     {
-      title: 'Power Transfer',
+      key: 'avgPowerSupply',
+      title: 'Avg. Monthly Power Supply',
       subtitle: '$45,231.89',
       description: '+20.1% from last month',
-      iconKey: 'cart',
     },
     {
-      title: 'Yearly Power',
+      key: 'avgPowerUse',
+      title: 'Avg. Monthly Power Use',
       subtitle: '+2350',
       description: '+180.1% from last month',
-      iconKey: 'zap',
     },
     {
-      title: 'Surplus Cost',
+      key: 'totalPowerSupply',
+      title: 'Total Power Supply',
       subtitle: '+12,234',
       description: '+19% from last month',
-      iconKey: 'refresh',
     },
     {
-      title: 'Total Cost',
+      key: 'totalPowerUse',
+      title: 'Total Power Use',
       subtitle: '+573',
       description: '+201 since last hour',
-      iconKey: 'dollar',
     },
   ];
 }

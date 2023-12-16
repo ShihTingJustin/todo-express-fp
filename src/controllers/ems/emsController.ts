@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { mockTableData } from './mock/mockTable';
+import { mockTableData, mockDataTableData } from './mock/mockTable';
 import {
   mockWidgetData,
   mockLineChartData,
@@ -33,12 +33,24 @@ const emsController = {
 
   getTableData: async (req: Request, res: Response<any>) => {
     try {
-      const { dataPoints } = req.query;
+      const { dataPoints, type } = req.query;
 
-      return res.status(200).json({
-        status: 'success',
-        data: mockTableData({ dataPoints: Number(dataPoints) }),
-      });
+      switch (type) {
+        case 'simple':
+          return res.status(200).json({
+            status: 'success',
+            data: mockTableData({ dataPoints: Number(dataPoints) }),
+          });
+
+        case 'data':
+          return res.status(200).json({
+            status: 'success',
+            data: mockDataTableData(),
+          });
+
+        default:
+          return;
+      }
     } catch (error) {
       console.log(error);
     }
@@ -131,6 +143,7 @@ const emsController = {
 
         case 'pie':
           if (req.query?.subType) {
+            // @ts-ignore
             data = mockPieChartData(req.query?.subType);
           }
           break;

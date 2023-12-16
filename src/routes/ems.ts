@@ -37,6 +37,13 @@ emsRouter.get('/sidebar', emsController.getSidebarData);
  *          required: true
  *          default: 3
  *          description: dataPoints for table
+ *        - in: query
+ *          name: type
+ *          schema:
+ *          type: string
+ *          default: data
+ *          required: true
+ *          description: type for table
  *      responses:
  *        "200":
  *          description: success

@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import { makeData } from './makeData';
 
 const MOCK_TABLE_DATA = [
   {
@@ -78,6 +79,10 @@ function getRandomElements(array: any[], numberOfElements: number) {
   return shuffledArray.slice(0, numberOfElements);
 }
 
-export function mockTableData({ dataPoints }:{ dataPoints: number}) {
+export function mockTableData({ dataPoints }: { dataPoints: number }) {
   return getRandomElements(MOCK_TABLE_DATA, dataPoints);
+}
+
+export function mockDataTableData() {
+  return makeData(10000);
 }
