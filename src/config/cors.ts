@@ -8,7 +8,11 @@ if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
 }
 
-const allowlist = [`${process.env.CLIENT_DOMAIN_1}`, `${process.env.CLIENT_DOMAIN_2}`];
+const allowlist = [
+  process.env.CLIENT_DOMAIN_1,
+  process.env.CLIENT_DOMAIN_2,
+  process.env.CLIENT_DOMAIN_3,
+];
 const corsOptionsDelegate: CorsOptionsDelegate<Request> = function (req, callback) {
   let corsOptions;
   if (allowlist.indexOf(req.header('origin') || '') !== -1) {
