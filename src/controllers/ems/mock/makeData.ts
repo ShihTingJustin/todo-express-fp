@@ -17,7 +17,7 @@ export interface ElectricityData {
   electricityAmount: number;
   electricityPrice: number;
   electricityStatus: string;
-  remainingElectricityPercentage: number;
+  surplusRate: number;
   rePercentage: number;
   startDate: number;
 }
@@ -40,7 +40,7 @@ const newElectricity = (): ElectricityData => {
     electricityAmount: faker.number.int(1000),
     electricityPrice: faker.number.int(1000),
     electricityStatus: faker.helpers.shuffle<string>(statusData)[0]!,
-    remainingElectricityPercentage: faker.number.int(100),
+    surplusRate: faker.number.int(100),
     rePercentage: faker.number.int(100),
     startDate: faker.date
       .between({
