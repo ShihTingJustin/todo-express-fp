@@ -83,6 +83,6 @@ export function mockTableData({ dataPoints }: { dataPoints: number }) {
   return getRandomElements(MOCK_TABLE_DATA, dataPoints);
 }
 
-export function mockDataTableData() {
-  return makeData(10000);
+export function mockDataTableData(dataPoints = 100) {
+  return makeData(dataPoints);
 }

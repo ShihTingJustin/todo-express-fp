@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 export enum SolutionType {
   'HV3' = 'HV3',
 }
-export enum ElectricityStatus {
+export enum ProcessStatus {
   COMPUTING = 'computing',
   COMPLETED = 'completed',
   UNPROCESSED = 'unprocessed',
@@ -16,7 +16,7 @@ export interface ElectricityData {
   electricityId: string;
   electricityAmount: number;
   electricityPrice: number;
-  electricityStatus: string;
+  processStatus: string;
   surplusRate: number;
   rePercentage: number;
   startDate: number;
@@ -33,13 +33,13 @@ const range = (len: number) => {
 const newElectricity = (): ElectricityData => {
   const statusData = ['computing', 'completed', 'unprocessed'];
   return {
-    contractId: faker.string.uuid(),
-    factoryName: faker.location.country(),
+    contractId: `SKN${faker.string.numeric({ length: 4 })}`,
+    factoryName: `Factory${faker.string.numeric({ length: 3 })}`,
     solutionType: faker.helpers.shuffle<SolutionType>([SolutionType.HV3])[0]!,
     electricityId: faker.string.uuid(),
     electricityAmount: faker.number.int(1000),
     electricityPrice: faker.number.int(1000),
-    electricityStatus: faker.helpers.shuffle<string>(statusData)[0]!,
+    processStatus: faker.helpers.shuffle<string>(statusData)[0]!,
     surplusRate: faker.number.int(100),
     rePercentage: faker.number.int(100),
     startDate: faker.date

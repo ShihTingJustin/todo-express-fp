@@ -45,7 +45,7 @@ const emsController = {
         case 'data':
           return res.status(200).json({
             status: 'success',
-            data: mockDataTableData(),
+            data: mockDataTableData(Number(dataPoints)),
           });
 
         default:
