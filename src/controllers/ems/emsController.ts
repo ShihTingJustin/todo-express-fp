@@ -8,16 +8,11 @@ import {
 } from './mock/mockOverview';
 import { sidebar } from './mock/mockSidebar';
 import {
-  mockGeoChartData,
   mockSankeyChartData,
   mockPieChartData,
   mockPowerAnalysisWidgetData,
 } from './mock/mockPowerAnalysis';
-import {
-  generateMockData,
-  createPieChartMockData,
-  GenerateMockDataParams,
-} from '../ems/mock/generator';
+import { generateMockData } from '../ems/mock/generator';
 
 const handleLanguage = (req: Request) => {
   const lng = req.acceptsLanguages()[0] || 'zh-TW';

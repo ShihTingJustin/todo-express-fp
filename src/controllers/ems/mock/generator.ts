@@ -27,34 +27,6 @@ const DEFAULT_STROKE_COLOR = [
   '#FDC08670',
 ];
 
-export function createPieChartMockData(subType: string) {
-  switch (subType) {
-    case 'surplus':
-      return [
-        {
-          name: 'Total',
-          value: faker.number.int({ min: 1000, max: 5000 }),
-        },
-        {
-          name: 'Surplus',
-          value: faker.number.int({ min: 1000, max: 5000 }),
-        },
-      ];
-
-    case 're':
-      return [
-        {
-          name: 'Total',
-          value: faker.number.int({ min: 1000, max: 5000 }),
-        },
-        {
-          name: 'Gray',
-          value: faker.number.int({ min: 1000, max: 5000 }),
-        },
-      ];
-  }
-}
-
 export const LNG_MAP = {
   en: {
     solar: 'Solar',
@@ -75,6 +47,34 @@ export const LNG_MAP = {
     reCostRatio: '綠能電費比',
   },
 };
+
+export function createPieChartMockData(subType: string, lng: string) {
+  switch (subType) {
+    case 'surplus':
+      return [
+        {
+          name: LNG_MAP[lng].total,
+          value: faker.number.int({ min: 1000, max: 5000 }),
+        },
+        {
+          name: LNG_MAP[lng].surplus,
+          value: faker.number.int({ min: 1000, max: 5000 }),
+        },
+      ];
+
+    case 're':
+      return [
+        {
+          name: LNG_MAP[lng].total,
+          value: faker.number.int({ min: 1000, max: 5000 }),
+        },
+        {
+          name: LNG_MAP[lng].gray,
+          value: faker.number.int({ min: 1000, max: 5000 }),
+        },
+      ];
+  }
+}
 
 export function generateMockData({
   type,
