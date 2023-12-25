@@ -55,7 +55,33 @@ export function createPieChartMockData(subType: string) {
   }
 }
 
-export function generateMockData({ type, dataPoints, interval = 'day' }: GenerateMockDataParams) {
+export const LNG_MAP = {
+  en: {
+    solar: 'Solar',
+    wind: 'Wind',
+    load: 'Load',
+    gray: 'Gray',
+    total: 'Total',
+    surplus: 'Surplus',
+    reCostRatio: 'RE Cost Ratio',
+  },
+  zh: {
+    solar: '太陽能',
+    wind: '風力',
+    load: '負載',
+    gray: '灰電',
+    total: '總計',
+    surplus: '餘電',
+    reCostRatio: '綠能電費比',
+  },
+};
+
+export function generateMockData({
+  type,
+  dataPoints,
+  interval = 'day',
+  lng,
+}: GenerateMockDataParams) {
   let data;
 
   switch (type) {
@@ -78,9 +104,9 @@ export function generateMockData({ type, dataPoints, interval = 'day' }: Generat
         if (Array.isArray(data)) {
           data.unshift({
             timestamp: currentDate.toDate(),
-            solar: faker.number.int({ min: 1000, max: 5000 }),
-            wind: faker.number.int({ min: 1000, max: 5000 }),
-            load: faker.number.int({ min: 1000, max: 5000 }),
+            [LNG_MAP[lng].solar]: faker.number.int({ min: 1000, max: 5000 }),
+            [LNG_MAP[lng].wind]: faker.number.int({ min: 1000, max: 5000 }),
+            [LNG_MAP[lng].load]: faker.number.int({ min: 1000, max: 5000 }),
           });
         }
         break;
@@ -89,7 +115,7 @@ export function generateMockData({ type, dataPoints, interval = 'day' }: Generat
         if (Array.isArray(data)) {
           data.unshift({
             timestamp: currentDate.toDate(),
-            total: faker.number.int({ min: 1000, max: 5000 }),
+            [LNG_MAP[lng]?.total]: faker.number.int({ min: 1000, max: 5000 }),
           });
         }
         break;
@@ -98,9 +124,9 @@ export function generateMockData({ type, dataPoints, interval = 'day' }: Generat
         if (Array.isArray(data)) {
           data.unshift({
             timestamp: currentDate.toDate(),
-            solar: faker.number.int({ min: 1000, max: 5000 }),
-            wind: faker.number.int({ min: 1000, max: 5000 }),
-            gray: faker.number.int({ min: 1000, max: 5000 }),
+            [LNG_MAP[lng].solar]: faker.number.int({ min: 1000, max: 5000 }),
+            [LNG_MAP[lng].wind]: faker.number.int({ min: 1000, max: 5000 }),
+            [LNG_MAP[lng].gray]: faker.number.int({ min: 1000, max: 5000 }),
           });
         }
         break;
@@ -151,9 +177,21 @@ export function generateMockData({ type, dataPoints, interval = 'day' }: Generat
             countryName: countryInfo[countryCode],
             total: faker.number.int({ min: 20, max: 100 }),
             subtotal: [
-              { type: 'solar', title: 'Solar', value: faker.number.int({ min: 5, max: 50 }) },
-              { type: 'wind', title: 'Wind', value: faker.number.int({ min: 5, max: 50 }) },
-              { type: 'gray', title: 'Gray', value: faker.number.int({ min: 5, max: 50 }) },
+              {
+                type: 'solar',
+                title: LNG_MAP[lng].solar,
+                value: faker.number.int({ min: 5, max: 50 }),
+              },
+              {
+                type: 'wind',
+                title: LNG_MAP[lng].wind,
+                value: faker.number.int({ min: 5, max: 50 }),
+              },
+              {
+                type: 'gray',
+                title: LNG_MAP[lng].gray,
+                value: faker.number.int({ min: 5, max: 50 }),
+              },
             ],
           };
         });
@@ -169,4 +207,9 @@ export function generateMockData({ type, dataPoints, interval = 'day' }: Generat
   return data;
 }
 
-export type GenerateMockDataParams = { type: string; dataPoints: number; interval: string };
+export type GenerateMockDataParams = {
+  type: string;
+  dataPoints: number;
+  interval: string;
+  lng: string;
+};

@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { generateMockData, GenerateMockDataParams } from './generator';
+import { generateMockData, GenerateMockDataParams, GenerateMockDataParamsm, LNG_MAP } from './generator';
 
 export const sidebar = {
   upper: [
@@ -52,54 +52,81 @@ export const sidebar = {
 export function mockWidgetData() {
   return [
     {
+      key: 'power-transfer',
       title: 'Power Transfer',
-      subtitle: '$45,231.89',
-      description: '+20.1% from last month',
+      subtitle: 'kWh 45,231.89',
+      percentage: 20.1,
       iconKey: 'cart',
     },
     {
+      key: 'yearly-power',
       title: 'Yearly Power',
-      subtitle: '+2350',
-      description: '+180.1% from last month',
+      subtitle: 'kWh 2350',
+      percentage: 35,
+      // description: '+35%',
       iconKey: 'zap',
     },
     {
+      key: 'surplus-cost',
       title: 'Surplus Cost',
-      subtitle: '+12,234',
-      description: '+19% from last month',
+      subtitle: '$12,234',
+      percentage: -5,
+      // description: 'from last month',
       iconKey: 'refresh',
     },
     {
+      key: 'total-cost',
       title: 'Total Cost',
-      subtitle: '+573',
-      description: '+201 since last hour',
+      subtitle: '$573',
+      percentage: 5,
+      // description: '+201 since last month',
       iconKey: 'dollar',
     },
   ];
 }
 
-export function mockLineChartData({ type, dataPoints, interval = 'day' }: GenerateMockDataParams) {
+export function mockLineChartData({
+  type,
+  dataPoints,
+  interval = 'day',
+  lng,
+}: GenerateMockDataParams) {
   return {
     type: 'lineSimple',
     title: 'Power Mix',
-    data: generateMockData({ type, dataPoints, interval }),
+    data: generateMockData({
+      type,
+      dataPoints,
+      interval,
+      lng,
+    }),
   };
 }
 
-export function mockBarChartData({ type, dataPoints, interval = 'day' }: GenerateMockDataParams) {
+export function mockBarChartData({
+  type,
+  dataPoints,
+  interval = 'day',
+  lng,
+}: GenerateMockDataParams) {
   return {
-    type: 'barSimple',
+    type,
     title: 'Overview1',
-    data: generateMockData({ type, dataPoints, interval }),
+    data: generateMockData({
+      type,
+      dataPoints,
+      interval,
+      lng,
+    }),
   };
 }
 
-export function mockSummaryData() {
+export function mockSummaryData(lng) {
   return {
     upper: [
       {
         key: 'surplus',
-        title: 'Surplus',
+        title: LNG_MAP[lng].surplus,
         value: faker.number.float({ min: 1, max: 10, precision: 0.1 }),
         bgColor: 'blue',
       },
@@ -111,13 +138,13 @@ export function mockSummaryData() {
       },
       {
         key: 'gray',
-        title: 'Gray',
+        title: LNG_MAP[lng].gray,
         value: faker.number.float({ min: 10, max: 25, precision: 0.1 }),
         bgColor: 'gray',
       },
     ],
     lower: {
-      title: '綠能電費比',
+      title: LNG_MAP[lng].reCostRatio,
       amount: faker.number.float({ min: 80, max: 90, precision: 0.1 }),
       difference: faker.number.float({ min: 1, max: 5, precision: 0.1 }),
       lineChartData: mockLineTinyData(),

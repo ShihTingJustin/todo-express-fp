@@ -19,6 +19,11 @@ import {
   GenerateMockDataParams,
 } from '../ems/mock/generator';
 
+const handleLanguage = (req: Request) => {
+  const lng = req.acceptsLanguages()[0] || 'zh-TW';
+  return lng.split('-')[0];
+};
+
 const emsController = {
   getSidebarData: async (req: Request, res: Response<any>) => {
     try {
@@ -34,12 +39,13 @@ const emsController = {
   getTableData: async (req: Request, res: Response<any>) => {
     try {
       const { dataPoints, type } = req.query;
+      const lng = handleLanguage(req);
 
       switch (type) {
         case 'simple':
           return res.status(200).json({
             status: 'success',
-            data: mockTableData({ dataPoints: Number(dataPoints) }),
+            data: mockTableData({ dataPoints: Number(dataPoints), lng }),
           });
 
         case 'data':
@@ -70,6 +76,7 @@ const emsController = {
   getOverviewChartData: async (req: Request, res: Response<any>) => {
     try {
       const { dataPoints: rawDataPoints, interval: rawInterval, type } = req.query;
+      const lng = handleLanguage(req);
       const dataPoints = Number(rawDataPoints);
       const interval = String(rawInterval);
 
@@ -81,6 +88,7 @@ const emsController = {
             type,
             dataPoints,
             interval,
+            lng,
           });
           break;
 
@@ -89,6 +97,7 @@ const emsController = {
             type,
             dataPoints,
             interval,
+            lng,
           });
           break;
 
@@ -107,9 +116,10 @@ const emsController = {
 
   getOverviewSummaryData: async (req: Request, res: Response<any>) => {
     try {
+      const lng = handleLanguage(req);
       return res.status(200).json({
         status: 'success',
-        data: mockSummaryData(),
+        data: mockSummaryData(lng),
       });
     } catch (error) {
       console.log(error);
@@ -129,6 +139,8 @@ const emsController = {
 
   getPowerAnalysisChartData: async (req: Request, res: Response<any>) => {
     try {
+      const lng = handleLanguage(req);
+      console.log(lng);
       const { dataPoints, interval, type } = req.query;
       let data;
 
@@ -138,21 +150,23 @@ const emsController = {
             type,
             dataPoints: Number(dataPoints),
             interval: String(interval),
+            lng,
           });
           break;
 
         case 'pie':
           if (req.query?.subType) {
             // @ts-ignore
-            data = mockPieChartData(req.query?.subType);
+            data = mockPieChartData(req.query?.subType, lng);
           }
           break;
 
         case 'barSimple':
           data = mockBarChartData({
-            type: 'barGroup',
+            type: 'barSimple',
             dataPoints: Number(dataPoints),
             interval: String(interval),
+            lng,
           });
           break;
 
@@ -164,6 +178,7 @@ const emsController = {
               type,
               dataPoints: Number(dataPoints),
               interval: String(interval),
+              lng,
             }),
           };
           break;
