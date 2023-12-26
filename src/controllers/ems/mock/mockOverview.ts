@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { generateMockData, GenerateMockDataParams, GenerateMockDataParamsm, LNG_MAP } from './generator';
+import { generateMockData, GenerateMockDataParams, LNG_MAP } from './generator';
 
 export const sidebar = {
   upper: [
@@ -121,7 +121,7 @@ export function mockBarChartData({
   };
 }
 
-export function mockSummaryData(lng) {
+export function mockSummaryData(lng: keyof typeof LNG_MAP) {
   return {
     upper: [
       {

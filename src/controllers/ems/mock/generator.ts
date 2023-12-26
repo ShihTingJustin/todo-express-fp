@@ -48,7 +48,8 @@ export const LNG_MAP = {
   },
 };
 
-export function createPieChartMockData(subType: string, lng: string) {
+
+export function createPieChartMockData(subType: string, lng: keyof typeof LNG_MAP) {
   switch (subType) {
     case 'surplus':
       return [
@@ -211,5 +212,5 @@ export type GenerateMockDataParams = {
   type: string;
   dataPoints: number;
   interval: string;
-  lng: string;
+  lng: keyof typeof LNG_MAP;
 };

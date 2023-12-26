@@ -12,11 +12,15 @@ import {
   mockPieChartData,
   mockPowerAnalysisWidgetData,
 } from './mock/mockPowerAnalysis';
-import { generateMockData } from '../ems/mock/generator';
+import { LNG_MAP, generateMockData } from '../ems/mock/generator';
 
-const handleLanguage = (req: Request) => {
-  const lng = req.acceptsLanguages()[0] || 'zh-TW';
-  return lng.split('-')[0];
+const handleLanguage = (req: Request): keyof typeof LNG_MAP => {
+  const isAccepted = req.acceptsLanguages()[0] === 'zh-TW' || req.acceptsLanguages()[0] === 'en-US';
+  const lng = isAccepted ? req.acceptsLanguages()[0] : 'zh-TW';
+
+  const result = Object.keys(LNG_MAP).find((key) => key === lng);
+
+  return lng.split('-')[0] as keyof typeof LNG_MAP;
 };
 
 const emsController = {

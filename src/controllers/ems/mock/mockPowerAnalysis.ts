@@ -1,4 +1,4 @@
-import { generateMockData, createPieChartMockData, GenerateMockDataParams } from './generator';
+import { generateMockData, createPieChartMockData, GenerateMockDataParams, LNG_MAP } from './generator';
 import { faker } from '@faker-js/faker';
 
 export function mockPowerAnalysisWidgetData() {
@@ -47,7 +47,7 @@ export function mockSankeyChartData({
   };
 }
 
-export function mockPieChartData(subType: string, lng: string) {
+export function mockPieChartData(subType: string, lng: keyof typeof LNG_MAP) {
   return {
     type: 'pie',
     title: 'Power Mix',
