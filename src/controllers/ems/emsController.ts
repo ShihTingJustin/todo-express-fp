@@ -139,7 +139,6 @@ const emsController = {
   getPowerAnalysisChartData: async (req: Request, res: Response<any>) => {
     try {
       const lng = handleLanguage(req);
-      console.log(lng);
       const { dataPoints, interval, type } = req.query;
       let data;
 
