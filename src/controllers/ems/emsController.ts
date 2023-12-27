@@ -15,10 +15,8 @@ import {
 import { LNG_MAP, generateMockData } from '../ems/mock/generator';
 
 const handleLanguage = (req: Request): keyof typeof LNG_MAP => {
-  const isAccepted = req.acceptsLanguages()[0] === 'zh-TW' || req.acceptsLanguages()[0] === 'en-US';
+  const isAccepted = req.acceptsLanguages()[0] === 'zh-TW'||req.acceptsLanguages()[0] === 'zh' || req.acceptsLanguages()[0] === 'en-US' || req.acceptsLanguages()[0] === 'en';
   const lng = isAccepted ? req.acceptsLanguages()[0] : 'zh-TW';
-
-  const result = Object.keys(LNG_MAP).find((key) => key === lng);
 
   return lng.split('-')[0] as keyof typeof LNG_MAP;
 };
@@ -76,6 +74,7 @@ const emsController = {
     try {
       const { dataPoints: rawDataPoints, interval: rawInterval, type } = req.query;
       const lng = handleLanguage(req);
+      console.log(79,lng)
       const dataPoints = Number(rawDataPoints);
       const interval = String(rawInterval);
 
